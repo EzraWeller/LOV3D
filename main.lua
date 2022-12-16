@@ -1,7 +1,7 @@
 vectors = require "lib/vectors"
 obj = require "lib/obj"
 matrices = require "lib/matrices"
-toml = require "lib/toml"
+json = require "lib/json"
 
 -- ASSETS are raw files that will be used by the game to construct game objects: .obj, .wav, .png, etc.
 -- ENTITIES are lua structures that can be interpreted and used by the game
@@ -27,17 +27,18 @@ toml = require "lib/toml"
     -- draws graphics based on state
 
 --[[ STATE ]]--
-LEVEL = require('levels/l_test')
+local levelPath = "levels/l_test.json"
+LEVEL = json.decode(io.input(levelPath, "r"):read("a"))
 ACTORS = {}
 INPUT_MODES = {}
 
 --[[ ONCE AT START ]]--
 function love.load()
+  print(json.encode(LEVEL))
   loadLevelAssets()
   initState()
 
   -- workspace
-  print(toml.encode(LEVEL))
 end
 
 function loadLevelAssets()
