@@ -97,7 +97,7 @@ function matrices.multiply(Ma, Mb)
   
   for i=1,#Ma do
     R[i] = {}
-    for j=1, #Ma[1] do
+    for j=1,#Ma[1] do
       R[i][j] = 0
       for k=1,#Ma do
         R[i][j] = R[i][j] + Ma[i][k] * Mb[k][j]

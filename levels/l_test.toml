@@ -1,9 +1,30 @@
-[layers]
-[layers.1]
+[[layers]]
 type = "3D"
-[[layers.1.entities]]
-type="static"
-name="s_cube"
-transform=[[2,0,0,0],[0,2,0,0],[0,0,2,0],[10,0,0,1]]
+[[layers.entities]]
+name = "s_cube"
+type = "static"
+[layers.entities.overrides]
+[[layers.entities.overrides.transform]]
+1 = 2
+2 = 0
+3 = 0
+4 = 0
+[[layers.entities.overrides.transform]]
+1 = 0
+2 = 2
+3 = 0
+4 = 0
+[[layers.entities.overrides.transform]]
+1 = 0
+2 = 0
+3 = 2
+4 = 0
+[[layers.entities.overrides.transform]]
+1 = 0
+2 = 0
+3 = 0
+4 = 1
+[[layers]]
+type = "2D"
 
 
