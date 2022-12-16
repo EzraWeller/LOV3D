@@ -1,0 +1,9 @@
+[layers]
+[layers.1]
+type = "3D"
+[[layers.1.entities]]
+type="static"
+name="s_cube"
+transform=[[2,0,0,0],[0,2,0,0],[0,0,2,0],[10,0,0,1]]
+
+

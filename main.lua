@@ -34,7 +34,7 @@ The main idea here is to able to layer 2D layers with 3D: I imagine a standard m
 ]]--
 LAYERS = {require("layers/test3d"), require("layers/testGUI")}
 LOADED_ASSETS = {}
-BAKED_LAYERS = {}
+STATE = {}
 CLICKABLES = {buttons={}}
 
 ACTIVE_CONTROLS = {textInput=false, camera=true}
@@ -142,7 +142,7 @@ function resetLoadedAssets()
 end
 
 function resetBakedLayers()
-  BAKED_LAYERS = {}
+  STATE = {}
 end
 
 --[[
@@ -307,14 +307,35 @@ function loadAssets()
   end
 end
 
--- TODO put each layer on its own canvas, so it's easier so we can rerender the same canvas if nothing changed?
+-- ASSETS are raw files that will be used by the game to construct game objects: .obj, .wav, .png, etc.
+-- ENTITIES are lua structures that can be interpreted and used by the game
+  -- STATIC entities never change their state after initial bake
+  -- DYNAMIC entities have an .update(self) function 
+    -- PUPPET entities are dynamic entities that have 
+      -- a set of controls -- player commands the character responds to
+      -- at least one INPUT_MODE, which tell the engine when that entity should listen to inputs (e.g. UI elements only take input when in UI input mode)
+-- LAYERS are sets of ENTITIES
+-- LEVELS are sets of LAYERS, in the order they should rendered on top of each other (bg then forground then UI, for example)
+-- the ENGINE is the core program, and it
+  -- loads LEVELS
+  -- keeps a STATE
+  -- etc.
+
+-- TODO rendering system that can deal with ACTORS
+  -- actors are objects that have their own custom scripts that can change their state every tick
+  -- this "baking" system exists to get objects in the form usable by the engine -- it should only happen once
+  -- that means actors need to change their post-baked state
+  -- BAKED_LAYERS --> STATE
+  -- in love.update, cycle through STATE for actors and call their update functions which update STATE
+    -- 
+  -- in love.draw, draw STATE
 
 function bakeLayers()
   resetBakedLayers()
   local j
   for i=1,#LAYERS do
     local layer = LAYERS[i]
-    BAKED_LAYERS[i] = {type=layer.type}
+    STATE[i] = {type=layer.type}
     if layer.type == "3D" then
       local maxDistanceToCam = -1
       local unsortedObjs = {}
@@ -326,13 +347,13 @@ function bakeLayers()
         table.insert(unsortedObjs, bakedObj)
       end
       -- sort
-      BAKED_LAYERS[i].obj = countingSortTableBy(unsortedObjs, "distanceToCam", maxDistanceToCam)
+      STATE[i].obj = countingSortTableBy(unsortedObjs, "distanceToCam", maxDistanceToCam)
     elseif layer.type == "2D" then -- for 2D layers
-      BAKED_LAYERS[i].buttons = {}
+      STATE[i].buttons = {}
       for j=1,#layer.buttons do
         -- add pos to buttons and add to baked layers
         local bb = bakeButton(layer.buttons[j], layer.buttonPositions[j])
-        BAKED_LAYERS[i].buttons[j] = bb
+        STATE[i].buttons[j] = bb
         -- also add to clickables
         table.insert(CLICKABLES.buttons, bb)
       end
@@ -412,8 +433,8 @@ end
 
 function renderLayers()
   local j
-  for i=1,#BAKED_LAYERS do
-    local bl = BAKED_LAYERS[i]
+  for i=1,#STATE do
+    local bl = STATE[i]
     if bl.type == "3D" then
       for j=#bl.obj, 1, -1 do
         local bo = bl.obj[j]
