@@ -1,12 +1,14 @@
 puppets = require "lib/puppets"
 
-local entityModes = {"TEST_MODE"}
+local entityModes = {"game"}
 
 local inputFunctions = {
-  "up"=function(self, STATE) print("p_cube up") end,
-  "down"=function(self, STATE) print("p_cube down") end,
-  "left"=function(self, STATE) print("p_cube left") end,
-  "right"=function(self, STATE) print("p_cube right") end,
+  keyboard = {
+    up=function(self, STATE) print("p_cube up") end,
+    down=function(self, STATE) print("p_cube down") end,
+    left=function(self, STATE) print("p_cube left") end,
+    right=function(self, STATE) print("p_cube right") end,
+  }
 }
 
 function update(self, STATE)
@@ -15,9 +17,7 @@ function update(self, STATE)
     self,
     STATE,
     inputFunctions, 
-    entityModes, 
-    STATE.INPUT_MODES, 
-    STATE.ACTIVE_INPUTS
+    entityModes
   )
   return self
 end

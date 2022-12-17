@@ -1,9 +1,11 @@
-vectors = require "lib/vectors"
-obj = require "lib/obj"
-matrices = require "lib/matrices"
-json = require "lib/json"
-sorts = require "lib/sorts"
 bake = require "lib/bake"
+camera = require "lib/camera"
+arrays = require "lib/arrays"
+inputs = require "lib/inputs"
+load = require "lib/load"
+draw = require "lib/draw"
+-- caps to help make state more identifiable when reading
+STATE = require "lib/state"
 
 -- ASSETS are raw files that will be used by the game to construct game objects: .obj, .wav, .png, etc.
 -- ENTITIES are lua structures that can be interpreted and used by the game
@@ -29,120 +31,41 @@ bake = require "lib/bake"
       -- bakes state into renderable stuff for LOVE2D
     -- draws graphics based on state
 
---[[ STATE ]]--
-local initialCamZBasis = {0,0,1}
-local initialCamPos = {0,0,0}
-local initialCamDistance = 2000
-STATE = {
-  LEVEL = json.decode(io.input("levels/l_test.json", "r"):read("a")),
-  BAKED_LEVEL = {},
-  ACTORS = {},
-  INPUT_MODES = {},
-  ACTIVE_INPUTS = {},
-  CAMERA = {
-    position=initialCamPos,
-    -- camera vector is always the Z basis vector of the viewport!
-    distanceToViewport=initialCamDistance,
-    movementSpeed=0.1,
-    rotationSpeed=1,
-    viewport={
-      center=vectors.linearTranslate(initialCamPos, initialCamZBasis, initialCamDistance),
-      basis={
-        {1,0,0},
-        {0,1,0},
-        initialCamZBasis -- also describes the camera vector and the normal to the 2d viewport plane!
-      },
-      size={x=1366, y=768}
-    }
-  }
-}
-
 --[[ ONCE AT START ]]--
 function love.load()
   -- Import entities with level-specific settings
-  loadEntities()
+  load.entities(STATE.LEVEL, STATE.ACTORS)
+
+  -- default to "game" controls
+  arrays.addUniqueElement(STATE.INPUT_MODES, "game")
 end
 
-function loadEntities()
-  local j
-  for i, layer in ipairs(STATE.LEVEL.layers) do
-    local loadedE
-    for j, e in pairs(layer.entities) do
-      loadedE = require("entities/" .. e.type .. "/" .. e.name)
-      override(loadedE, e)
-      loadedE.asset = loadEntityAsset(loadedE)
-      layer.entities[j] = loadedE
-      if e.entityType == "dynamic" or e.entityType == "puppet" then
-        table.insert(STATE.ACTORS, layer.entities[j])
-      end
-    end
-  end
+--[[ RECORD INPUT PRESSES ]]--
+-- these don't have specific times?
+function love.textinput(t)
+  inputs.storeText(t, STATE.INPUT_MODES, STATE.INPUT_TEXT, STATE.INPUT_TEXT_KEY)
+end
+function love.keypressed(k, s, r)
+  inputs.storeKeyboardPress(k, STATE.INPUT_PRESSES, STATE.INPUT_PRESSES_BUFFER)
+end
+function love.mousepressed(x, y, button)
+  inputs.storeMousePress(x, y, button, STATE.INPUT_PRESSES, STATE.INPUT_PRESSES_BUFFER)
 end
 
-function override(table, o)
-  -- TODO validate override keys are valid?
-  if o.overrides == nil then return end
-  for k, v in pairs(o.overrides) do table[k] = v end
-end
-
-function loadEntityAsset(e)
-  local asset
-  if e.assetType == "obj" then
-    asset = obj.load("assets/" .. e.assetType .. "/" .. e.asset .. ".obj")
-  elseif e.assetType == "button" then
-    -- buttons are already lua
-    asset = e.asset
-  end
-  return asset
-end
-
---[[ EVERY TICK: update state ]]--
+--[[ EVERY TICK: store held inputs and update state ]]--
 function love.update()
-  -- store player inputs
-  storeInputs()
+  -- record held inputs
+  inputs.storeHeld(STATE.INPUTS_HELD, STATE.INPUTS_HELD_BUFFER)
 
   -- update entities
-    -- the camera is a special, unique object
-  STATE.CAMERA = updateCamera(STATE.CAMERA)
-  updateEntities()
+  camera.update(STATE)
+  for i, e in ipairs(STATE.ACTORS) do e.update(e, STATE) end
 
   -- convert level state into form LOVE2D can render 
   STATE.BAKED_LEVEL = bake.level(STATE.LEVEL, STATE.CAMERA)
 end
 
-function storeInputs()
-  
-end
-
-function updateCamera(CAMERA)
-  return CAMERA
-end
-
-function updateEntities()
-  local i, e
-
-  for i, e in ipairs(STATE.ACTORS) do 
-    e.update(e, STATE) 
-  end
-end
-
 --[[ EVERY TICK: draw graphics ]]--
 function love.draw()
-  drawLevel()
-end
-
-function drawLevel()
-  local j, k
-  for i, layer in ipairs(STATE.BAKED_LEVEL) do
-    for j, entity in pairs(layer.entities) do
-      if layer.type == "3D" then
-        love.graphics.setColor(entity.color)
-        for k, polygon in pairs(entity.obj) do
-          love.graphics.polygon("fill", polygon)
-        end
-      elseif layer.type == "2D" then
-        -- nothing yet
-      end
-    end
-  end
+  draw.level(STATE.BAKED_LEVEL)
 end

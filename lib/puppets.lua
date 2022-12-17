@@ -2,10 +2,13 @@ arrays = require "lib/arrays"
 
 local puppets = {}
 
-function puppets.processInputs(inputFunctions, entityModes, activeModes, activeInputs)
-  if arrays.shareElement(entityModes, activeModes) then
-    for k, f in pairs(inputFunctions) do
-      if arrays.containsElement(k, activeInputs) then f() end
+function puppets.processInputs(self, STATE, inputFunctions, entityModes)
+  if arrays.shareElement(entityModes, STATE.INPUT_MODES) then
+    local l
+    for k, table in pairs(inputFunctions) do 
+      for l, func in pairs(table) do
+        if STATE.INPUTS_HELD[k][l][1] == true then f(self, STATE) end
+      end
     end
   end
 end
