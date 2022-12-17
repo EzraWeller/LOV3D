@@ -1,12 +1,7 @@
-function update(self, LEVEL)
-  print("d_cube updating")
-  -- placeholder
-  return self
-end
-
 return {
   entityType="dynamic",
   assetType="obj",
+  dimensions="3D",
   asset="cube",
   transform={
     {1,0,0,0},
@@ -15,5 +10,9 @@ return {
     {1,0,1,1}
   },
   color={0,0,0},
-  update=function() update() end
+  update=function(self, STATE)
+    print("d_cube updating")
+    -- placeholder
+    return self
+  end
 }

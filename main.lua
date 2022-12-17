@@ -30,29 +30,30 @@ bake = require "lib/bake"
     -- draws graphics based on state
 
 --[[ STATE ]]--
-LEVEL = json.decode(io.input("levels/l_test.json", "r"):read("a"))
-BAKED_LEVEL = {}
-DYNAMICS = {}
-PUPPETS = {}
-INPUT_MODES = {}
-ACTIVE_INPUTS = {}
-local initialZBasis = {0,0,1}
+local initialCamZBasis = {0,0,1}
 local initialCamPos = {0,0,0}
-local initialDistance = 2000
-CAMERA = {
-  position=initialCamPos,
-  -- camera vector is always the Z basis vector of the viewport!
-  distanceToViewport=initialDistance,
-  movementSpeed=0.1,
-  rotationSpeed=1,
-  viewport={
-    center=vectors.linearTranslate(initialCamPos, initialZBasis, initialDistance),
-    basis={
-      {1,0,0},
-      {0,1,0},
-      initialZBasis -- also describes the camera vector and the normal to the 2d viewport plane!
-    },
-    size={x=1366, y=768}
+local initialCamDistance = 2000
+STATE = {
+  LEVEL = json.decode(io.input("levels/l_test.json", "r"):read("a")),
+  BAKED_LEVEL = {},
+  ACTORS = {},
+  INPUT_MODES = {},
+  ACTIVE_INPUTS = {},
+  CAMERA = {
+    position=initialCamPos,
+    -- camera vector is always the Z basis vector of the viewport!
+    distanceToViewport=initialCamDistance,
+    movementSpeed=0.1,
+    rotationSpeed=1,
+    viewport={
+      center=vectors.linearTranslate(initialCamPos, initialCamZBasis, initialCamDistance),
+      basis={
+        {1,0,0},
+        {0,1,0},
+        initialCamZBasis -- also describes the camera vector and the normal to the 2d viewport plane!
+      },
+      size={x=1366, y=768}
+    }
   }
 }
 
@@ -64,28 +65,24 @@ end
 
 function loadEntities()
   local j
-  for i, layer in ipairs(LEVEL.layers) do
+  for i, layer in ipairs(STATE.LEVEL.layers) do
     local loadedE
-    for j, e in ipairs(layer.entities) do
+    for j, e in pairs(layer.entities) do
       loadedE = require("entities/" .. e.type .. "/" .. e.name)
       override(loadedE, e)
       loadedE.asset = loadEntityAsset(loadedE)
       layer.entities[j] = loadedE
-      if e.entityType == "dynamic" then
-        table.insert(DYNAMICS, layer.entities[j])
-      elseif e.entityType == "puppet" then
-        table.insert(PUPPETS, layer.entities[j])
+      if e.entityType == "dynamic" or e.entityType == "puppet" then
+        table.insert(STATE.ACTORS, layer.entities[j])
       end
     end
   end
 end
 
-function override(table, overrider)
-  if #overrider.overrides > 0 then
-    for k, v in pairs(overrider.overrides) do
-      table[k] = overrider.overrides[k]
-    end
-  end
+function override(table, o)
+  -- TODO validate override keys are valid?
+  if o.overrides == nil then return end
+  for k, v in pairs(o.overrides) do table[k] = v end
 end
 
 function loadEntityAsset(e)
@@ -106,11 +103,11 @@ function love.update()
 
   -- update entities
     -- the camera is a special, unique object
-  CAMERA = updateCamera(CAMERA)
+  STATE.CAMERA = updateCamera(STATE.CAMERA)
   updateEntities()
 
   -- convert level state into form LOVE2D can render 
-  BAKED_LEVEL = bake.level(LEVEL, CAMERA)
+  STATE.BAKED_LEVEL = bake.level(STATE.LEVEL, STATE.CAMERA)
 end
 
 function storeInputs()
@@ -124,32 +121,23 @@ end
 function updateEntities()
   local i, e
 
-  for i, e in ipairs(DYNAMICS) do 
-    e = e.update(e, LEVEL) 
-  end
-
-  for i, e in ipairs(PUPPETS) do
-    e = e.update(e, LEVEL, INPUT_MODES, ACTIVE_INPUTS)
+  for i, e in ipairs(STATE.ACTORS) do 
+    e.update(e, STATE) 
   end
 end
 
 --[[ EVERY TICK: draw graphics ]]--
 function love.draw()
-  -- print('BAKED LEVEL', BAKED_LEVEL)
-  drawLevel(BAKED_LEVEL)
+  drawLevel()
 end
 
-function drawLevel(BAKED_LEVEL)
+function drawLevel()
   local j, k
-  for i, layer in ipairs(BAKED_LEVEL) do
-    print('layer', #layer.entities)
-    for j, entity in ipairs(layer.entities) do
-      print('entity', entity)
+  for i, layer in ipairs(STATE.BAKED_LEVEL) do
+    for j, entity in pairs(layer.entities) do
       if layer.type == "3D" then
         love.graphics.setColor(entity.color)
-        print('color')
-        matrices.print(entity.color)
-        for k, polygon in ipairs(entity.obj) do
+        for k, polygon in pairs(entity.obj) do
           love.graphics.polygon("fill", polygon)
         end
       elseif layer.type == "2D" then

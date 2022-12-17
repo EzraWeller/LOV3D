@@ -22,7 +22,7 @@ function bake.level(LEVEL, CAMERA)
       BAKED_LEVEL[i].entities = {}
       for j, entity in ipairs(layer.entities) do
         -- right now, buttons are the only 2D asset
-        local bb = bakeButton(entity)
+        local bb = bake.button(entity)
         BAKED_LEVEL[i].entities[j] = bb
       end
     end
