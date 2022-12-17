@@ -7,6 +7,7 @@ draw = require "lib/draw"
 -- caps to help make state more identifiable when reading
 STATE = require "lib/state"
 
+--[[ ARCHITECTURE ]]
 -- ASSETS are raw files that will be used by the game to construct game objects: .obj, .wav, .png, etc.
 -- ENTITIES are lua structures that can be interpreted and used by the game
   -- STATIC entities never change their state after initial bake
@@ -30,6 +31,8 @@ STATE = require "lib/state"
       -- does any other custom stuff
       -- bakes state into renderable stuff for LOVE2D
     -- draws graphics based on state
+    
+-- Questions: how would lighting and physics fit in here?
 
 --[[ ONCE AT START ]]--
 function love.load()
