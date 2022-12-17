@@ -14,7 +14,7 @@ function matrices.invert(M)
   -- matrix must be square
   if not #M == #M[1] then 
     print("Warning : matrices.inverse : matrix not square")
-    return nil 
+    return nil
   end
 
   local i,j,k,c,m

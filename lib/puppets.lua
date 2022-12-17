@@ -1,11 +1,11 @@
-arrays = require "arrays"
+arrays = require "lib/arrays"
 
 local puppets = {}
 
-function puppets.processInputs(inputs)
-  if arrays.shareElement(input_modes, INPUT_MODES) then
-    for k, v in pairs(inputs) do
-      if arrays.containsElement(k, INPUTS) then v() end
+function puppets.processInputs(inputFunctions, entityModes, activeModes, activeInputs)
+  if arrays.shareElement(entityModes, activeModes) then
+    for k, f in pairs(inputFunctions) do
+      if arrays.containsElement(k, activeInputs) then f() end
     end
   end
 end
