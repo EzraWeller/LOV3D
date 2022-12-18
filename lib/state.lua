@@ -3,9 +3,9 @@ local initialCamPos = {-10,-10,0}
 local initialCamDistance = 2000
 
 local STATE = {
-  PROJECT = {},
-  LEVEL = {},
-  BAKED_LEVEL = {},
+  PROJECT = nil,
+  LEVEL = nil,
+  BAKED_LEVEL = nil,
   ACTORS = {},
   INPUT_MODES = {},
   INPUTS_HELD = {

@@ -33,8 +33,6 @@ local project = {}
   }
 ]]--
 
--- NOTE: most of this will NOT work on Windows right now!
-
 function project.open(path)
   local rootFolders = listFolders(path)
   if validateFolders(rootFolders, {"assets", "entities", "levels"}) == false then
@@ -50,6 +48,7 @@ function project.open(path)
   print("LOV3D opening project at "..path)
   love.filesystem.write("openProject", path)
 
+  -- NOTE: this stuff is linux / mac only for now!
   -- delete our folders and copy the project's
   io.popen("rm -rf assets entities level && cp -r "..
     path.."/assets assets && cp -r "..

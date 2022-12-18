@@ -45,7 +45,6 @@ STATE = require "lib/state"
 -- The save script would do the reverse: replace the original directory's folders with this one's.
 
 PROJECT_PATH = "~/workspace/LOVE/test_project"
-LEVEL_PATH = "levels/l_test.json"
 
 --[[ ONCE AT START ]]--
 function love.load()
@@ -55,7 +54,7 @@ function love.load()
     local openProject = love.filesystem.read("openProject")
     local yesNo = cli.yesNo("The project at "..openProject.." was last open. Opening will delete unsaved progress. Continue opening?")
     if yesNo == false then 
-      print("Open aborted.")
+      print("Open aborted. To save, run...")
       love.event.quit()
       return
     end
@@ -63,10 +62,10 @@ function love.load()
   STATE.PROJECT = project.open(PROJECT_PATH)
 
   -- set level to import
-  STATE.LEVEL = json.decode(io.input(LEVEL_PATH, "r"):read("a"))
+  -- STATE.LEVEL = json.decode(io.input(LEVEL_PATH, "r"):read("a"))
 
   -- Import entities with level-specific settings
-  load.entities(PROJECT_PATH, STATE.LEVEL, STATE.ACTORS)
+  -- load.entities(PROJECT_PATH, STATE.LEVEL, STATE.ACTORS)
 
   -- default to "game" controls
   arrays.addUniqueElement(STATE.INPUT_MODES, "game")
@@ -94,10 +93,10 @@ function love.update()
   for i, e in ipairs(STATE.ACTORS) do e.update(e, STATE) end
 
   -- convert level state into form LOVE2D can render 
-  STATE.BAKED_LEVEL = bake.level(STATE.LEVEL, STATE.CAMERA)
+  if STATE.LEVEL ~= nil then STATE.BAKED_LEVEL = bake.level(STATE.LEVEL, STATE.CAMERA) end
 end
 
 --[[ EVERY TICK: draw graphics ]]--
 function love.draw()
-  draw.level(STATE.BAKED_LEVEL)
+  if STATE.BAKED_LEVEL ~= nil then draw.level(STATE.BAKED_LEVEL) end
 end
