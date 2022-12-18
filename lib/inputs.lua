@@ -8,11 +8,13 @@ function inputs.storeText(t, INPUT_MODES, INPUT_TEXT, INPUT_TEXT_KEY)
 end
 
 function inputs.storeKeyboardPress(k, INPUT_PRESSES, INPUT_PRESSES_BUFFER)
+  if INPUT_PRESSES.keyboard[k] == nil then return end
   if #INPUT_PRESSES.keyboard[k] == INPUT_PRESSES_BUFFER then table.remove(INPUT_PRESSES.keyboard[k]) end
   table.insert(INPUT_PRESSES.keyboard[k], 1, true)
 end
 
 function inputs.storeMousePress(x, y, b, INPUT_PRESSES, INPUT_PRESSES_BUFFER)
+  if INPUT_PRESSES.mouse[b] == nil then return end
   if #INPUT_PRESSES.mouse[b] == INPUT_PRESSES_BUFFER then table.remove(INPUT_PRESSES.mouse[b]) end
   table.insert(INPUT_PRESSES.mouse[b], 1, {x=x, y=y})
 end

@@ -2,12 +2,12 @@ obj = require "lib/obj"
 
 local load = {}
 
-function load.entities(LEVEL, ACTORS)
+function load.entities(PROJECT_PATH, LEVEL, ACTORS)
   local j
   for i, layer in ipairs(LEVEL.layers) do
     local loadedE
     for j, e in pairs(layer.entities) do
-      loadedE = require("entities/" .. e.type .. "/" .. e.name)
+      loadedE = require(PROJECT_PATH.."/entities/" .. e.type .. "/" .. e.name)
       override(loadedE, e)
       loadedE.asset = loadEntityAsset(loadedE)
       layer.entities[j] = loadedE

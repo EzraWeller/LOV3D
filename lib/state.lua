@@ -1,11 +1,9 @@
-json = require "lib/json"
-
 local initialCamZBasis = {0,0,1}
 local initialCamPos = {-10,-10,0}
 local initialCamDistance = 2000
 
 local STATE = {
-  LEVEL = json.decode(io.input("levels/l_test.json", "r"):read("a")),
+  LEVEL = {},
   BAKED_LEVEL = {},
   ACTORS = {},
   INPUT_MODES = {},

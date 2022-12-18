@@ -5,6 +5,7 @@ inputs = require "lib/inputs"
 load = require "lib/load"
 draw = require "lib/draw"
 project = require "lib/project"
+json = require "lib/json"
 -- caps to help make state more identifiable when reading
 STATE = require "lib/state"
 
@@ -35,11 +36,19 @@ STATE = require "lib/state"
 
 -- Questions: how would lighting and physics fit in here?
 
+-- Swap this to load a different level
+PROJECT_PATH = "."
+LEVEL_PATH = "levels/l_test.json"
+
 --[[ ONCE AT START ]]--
 function love.load()
+  -- Set level to import
+  STATE.LEVEL = json.decode(io.input(LEVEL_PATH, "r"):read("a"))
+
   -- Import entities with level-specific settings
-  load.entities(STATE.LEVEL, STATE.ACTORS)
-  project.open("~/workspace/LOVE/LOV3D")
+  load.entities(PROJECT_PATH, STATE.LEVEL, STATE.ACTORS)
+  local files = project.open("~/Code/LOV3D")
+  print('files', json.encode(files))
 
   -- default to "game" controls
   arrays.addUniqueElement(STATE.INPUT_MODES, "game")
