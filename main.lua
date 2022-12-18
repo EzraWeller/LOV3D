@@ -48,6 +48,7 @@ PROJECT_PATH = "~/workspace/LOVE/test_project"
 
 --[[ ONCE AT START ]]--
 function love.load()
+  -- TODO: do all this in the UI instead
   -- open project
   local projectOpen = love.filesystem.getInfo("openProject")
   if projectOpen ~= nil then
@@ -61,11 +62,11 @@ function love.load()
   end
   STATE.PROJECT = project.open(PROJECT_PATH)
 
-  -- set level to import
-  -- STATE.LEVEL = json.decode(io.input(LEVEL_PATH, "r"):read("a"))
+  -- set default editor level to import
+  STATE.LEVEL = json.decode(io.input("editor/levels/l_shell.json", "r"):read("a"))
 
   -- Import entities with level-specific settings
-  -- load.entities(PROJECT_PATH, STATE.LEVEL, STATE.ACTORS)
+  load.entities(STATE.LEVEL, STATE.ACTORS, "editor")
 
   -- default to "game" controls
   arrays.addUniqueElement(STATE.INPUT_MODES, "game")

@@ -1,3 +1,5 @@
+json = require "lib/json"
+
 local draw = {}
 
 function draw.level(BAKED_LEVEL)
