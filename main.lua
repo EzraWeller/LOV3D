@@ -4,6 +4,7 @@ arrays = require "lib/arrays"
 inputs = require "lib/inputs"
 load = require "lib/load"
 draw = require "lib/draw"
+project = require "lib/project"
 -- caps to help make state more identifiable when reading
 STATE = require "lib/state"
 
@@ -31,13 +32,14 @@ STATE = require "lib/state"
       -- does any other custom stuff
       -- bakes state into renderable stuff for LOVE2D
     -- draws graphics based on state
-    
+
 -- Questions: how would lighting and physics fit in here?
 
 --[[ ONCE AT START ]]--
 function love.load()
   -- Import entities with level-specific settings
   load.entities(STATE.LEVEL, STATE.ACTORS)
+  project.open("~/workspace/LOVE/LOV3D")
 
   -- default to "game" controls
   arrays.addUniqueElement(STATE.INPUT_MODES, "game")
