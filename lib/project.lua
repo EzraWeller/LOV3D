@@ -33,6 +33,8 @@ local project = {}
   }
 ]]--
 
+-- NOTE: most of this will NOT work on Windows right now!
+
 function project.open(path)
   local rootFolders = listFolders(path)
   if validateFolders(rootFolders, {"assets", "entities", "levels"}) == false then
@@ -43,14 +45,25 @@ function project.open(path)
   if validateFolders(entitiesFolders, {"dynamic","puppet","static"}) == false then
     return error.new("project", "invalid project entities folder structure")
   end
+
+  -- write file recording project path
+  print("LOV3D opening project at "..path)
+  love.filesystem.write("openProject", path)
+
+  -- delete our folders and copy the project's
+  io.popen("rm -rf assets entities level && cp -r "..
+    path.."/assets assets && cp -r "..
+    path.."/entities entities && cp -r "..
+    path.."/levels levels")
+  io.flush()
   
   return {
     entities={
-      dynamic=listLuaFiles(path.."/entities/dynamic", "lua"),
-      puppet=listLuaFiles(path.."/entities/puppet", "lua"),
-      static=listLuaFiles(path.."/entities/static", "lua")
+      dynamic=listLuaFiles("entities/dynamic", "lua"),
+      puppet=listLuaFiles("entities/puppet", "lua"),
+      static=listLuaFiles("entities/static", "lua")
     },
-    levels=listLuaFiles(path.."/levels", "json")
+    levels=listLuaFiles("levels", "json")
   }
 end
 

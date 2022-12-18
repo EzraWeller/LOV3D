@@ -6,6 +6,7 @@ load = require "lib/load"
 draw = require "lib/draw"
 project = require "lib/project"
 json = require "lib/json"
+cli = require "lib/cli"
 -- caps to help make state more identifiable when reading
 STATE = require "lib/state"
 
@@ -43,14 +44,23 @@ STATE = require "lib/state"
 -- Basically, the open script would replace this directory's assets, entities, and levels folders with another directory's.
 -- The save script would do the reverse: replace the original directory's folders with this one's.
 
-PROJECT_PATH = "."
+PROJECT_PATH = "~/workspace/LOVE/test_project"
 LEVEL_PATH = "levels/l_test.json"
 
 --[[ ONCE AT START ]]--
 function love.load()
   -- open project
+  local projectOpen = love.filesystem.getInfo("openProject")
+  if projectOpen ~= nil then
+    local openProject = love.filesystem.read("openProject")
+    local yesNo = cli.yesNo("The project at "..openProject.." was last open. Opening will delete unsaved progress. Continue opening?")
+    if yesNo == false then 
+      print("Open aborted.")
+      love.event.quit()
+      return
+    end
+  end
   STATE.PROJECT = project.open(PROJECT_PATH)
-  print('files', json.encode(STATE.PROJECT))
 
   -- set level to import
   STATE.LEVEL = json.decode(io.input(LEVEL_PATH, "r"):read("a"))
