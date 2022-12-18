@@ -36,7 +36,7 @@ STATE = require "lib/state"
 
 -- Questions: how would lighting and physics fit in here?
 
--- Swap this to load a different level
+-- swap this to load a different level
 PROJECT_PATH = "."
 LEVEL_PATH = "levels/l_test.json"
 
