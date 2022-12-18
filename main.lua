@@ -37,18 +37,26 @@ STATE = require "lib/state"
 -- Questions: how would lighting and physics fit in here?
 
 -- swap this to load a different level
+-- okay, so because of Lua's virtual file system, we only have access to this directory, so we need 
+-- to something janky here. Shell script that "opens" a project by copying it's files into the editor project, 
+-- then another that "saves" the project by exporting it back to the original location?
+-- Basically, the open script would replace this directory's assets, entities, and levels folders with another directory's.
+-- The save script would do the reverse: replace the original directory's folders with this one's.
+
 PROJECT_PATH = "."
 LEVEL_PATH = "levels/l_test.json"
 
 --[[ ONCE AT START ]]--
 function love.load()
-  -- Set level to import
+  -- open project
+  STATE.PROJECT = project.open(PROJECT_PATH)
+  print('files', json.encode(STATE.PROJECT))
+
+  -- set level to import
   STATE.LEVEL = json.decode(io.input(LEVEL_PATH, "r"):read("a"))
 
   -- Import entities with level-specific settings
   load.entities(PROJECT_PATH, STATE.LEVEL, STATE.ACTORS)
-  local files = project.open("~/Code/LOV3D")
-  print('files', json.encode(files))
 
   -- default to "game" controls
   arrays.addUniqueElement(STATE.INPUT_MODES, "game")

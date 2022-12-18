@@ -3,6 +3,7 @@ local initialCamPos = {-10,-10,0}
 local initialCamDistance = 2000
 
 local STATE = {
+  PROJECT = {},
   LEVEL = {},
   BAKED_LEVEL = {},
   ACTORS = {},

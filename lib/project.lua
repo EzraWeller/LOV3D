@@ -16,6 +16,7 @@ local project = {}
       -- levels
   -- return an table like:
     -- { entities = {dynamic = {files names}, puppet = {file names}, static={file names}}, levels = {file names} }
+-- elsewhere: create a set of UI things that show this file structure, letting you choose a level
 -- open level
   -- project must be loaded
   -- input path to a level in the project
