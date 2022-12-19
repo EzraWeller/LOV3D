@@ -3,7 +3,7 @@ sorts = require "lib/sorts"
 
 local bake = {}
 
-function bake.level(LEVEL, CAMERA)
+function bake.level(LEVEL, ASSETS, CAMERA)
   local BAKED_LEVEL = {}
   local j
   for i, layer in ipairs(LEVEL.layers) do
@@ -12,7 +12,7 @@ function bake.level(LEVEL, CAMERA)
       local maxDistanceToCam = -1
       local uo = {}
       for j, entity in ipairs(layer.entities) do
-        local bo = bake.obj(entity.asset, entity.transform, entity.color, CAMERA)
+        local bo = bake.obj(ASSETS[entity.asset], entity.transform, entity.color, CAMERA)
         if bo.distanceToCam > maxDistanceToCam then maxDistanceToCam = bo.distanceToCam end
         table.insert(uo, bo)
       end

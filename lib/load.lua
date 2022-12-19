@@ -2,20 +2,23 @@ obj = require "lib/obj"
 
 local load = {}
 
-function load.entities(LEVEL, ACTORS, editor)
+function load.entities(LEVEL, ACTORS, ASSETS, editor)
   local j
   for i, layer in ipairs(LEVEL.layers) do
-    local loadedE
     for j, e in pairs(layer.entities) do
-      loadedE = require(editor.."/entities/" .. e.type .. "/" .. e.name)
-      override(loadedE, e)
-      loadedE.asset = loadEntityAsset(loadedE, editor)
-      layer.entities[j] = loadedE
+      layer.entities[j] = load.entity(e, ASSETS, editor)
       if e.entityType == "dynamic" or e.entityType == "puppet" then
         table.insert(ACTORS, layer.entities[j])
       end
     end
   end
+end
+
+function load.entity(entity, ASSETS, editor)
+  local loadedE = require(editor.."/entities/" .. entity.type .. "/" .. entity.name)
+  override(loadedE, entity)
+  loadedE.asset = load.entityAsset(loadedE, ASSETS, editor)
+  return loadedE
 end
 
 function override(table, o)
@@ -24,10 +27,12 @@ function override(table, o)
   for k, v in pairs(o.overrides) do table[k] = v end
 end
 
-function loadEntityAsset(e, editor)
+function load.entityAsset(e, ASSETS, editor)
   local asset
   if e.assetType == "obj" then
-    asset = obj.load(editor.."assets/" .. e.assetType .. "/" .. e.asset .. ".obj")
+    if ASSET[e.asset] == nil then
+      ASSET[e.asset] = obj.load(editor.."assets/" .. e.assetType .. "/" .. e.asset .. ".obj")
+    end
   elseif e.assetType == "button" then
     -- buttons are already lua
     asset = e.asset

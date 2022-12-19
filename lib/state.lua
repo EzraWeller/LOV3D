@@ -6,6 +6,7 @@ local STATE = {
   PROJECT = nil,
   LEVEL = nil,
   BAKED_LEVEL = nil,
+  ASSETS = {},
   ACTORS = {},
   INPUT_MODES = {},
   INPUTS_HELD = {

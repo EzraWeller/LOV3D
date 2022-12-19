@@ -66,7 +66,7 @@ function love.load()
   STATE.LEVEL = json.decode(io.input("editor/levels/l_shell.json", "r"):read("a"))
 
   -- Import entities with level-specific settings
-  load.entities(STATE.LEVEL, STATE.ACTORS, "editor")
+  load.entities(STATE.LEVEL, STATE.ACTORS, STATE.ASSETS, "editor")
 
   -- default to "game" controls
   arrays.addUniqueElement(STATE.INPUT_MODES, "game")
@@ -94,7 +94,7 @@ function love.update()
   for i, e in ipairs(STATE.ACTORS) do e.update(e, STATE) end
 
   -- convert level state into form LOVE2D can render 
-  if STATE.LEVEL ~= nil then STATE.BAKED_LEVEL = bake.level(STATE.LEVEL, STATE.CAMERA) end
+  if STATE.LEVEL ~= nil then STATE.BAKED_LEVEL = bake.level(STATE.LEVEL, STATE.ASSETS, STATE.CAMERA) end
 end
 
 --[[ EVERY TICK: draw graphics ]]--
