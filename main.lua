@@ -81,7 +81,7 @@ function love.keypressed(k, s, r)
 end
 function love.mousepressed(x, y, button)
   local t = love.timer.getTime()
-  inputs.storeMousePress(x, y, button, t, STATE.INPUT_PRESSES, STATE.INPUT_PRESSES_BUFFER)
+  inputs.storeMousePress(x, y, button, t, STATE)
 end
 
 --[[ EVERY TICK: store held inputs and update state ]]--

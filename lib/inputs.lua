@@ -1,9 +1,13 @@
 local inputs = {}
 
 function inputs.storeText(t, INPUT_MODES, INPUT_TEXT, INPUT_TEXT_KEY)
+  print('input modes', INPUT_MODES)
   if arrays.containsElement("text", INPUT_MODES) then
-    if INPUT_TEXT[INPUT_TEXT_KEY] == nil then INPUT_TEXT[INPUT_TEXT_KEY] = "" end
-    INPUT_TEXT[INPUT_TEXT_KEY] = INPUT_TEXT[INPUT_TEXT_KEY] .. t
+    print('text input mode active')
+    if INPUT_TEXT_KEY~= nil then
+      INPUT_TEXT[INPUT_TEXT_KEY] = (INPUT_TEXT[INPUT_TEXT_KEY] or "") .. t
+      print('updated text', INPUT_TEXT_KEY, INPUT_TEXT[INPUT_TEXT_KEY])
+    end
   end
 end
 
@@ -19,10 +23,13 @@ function inputs.storeKeyboardPress(k, t, INPUT_PRESSES, INPUT_PRESSES_BUFFER, IN
   end
 end
 
-function inputs.storeMousePress(x, y, b, t, INPUT_PRESSES, INPUT_PRESSES_BUFFER)
-  if INPUT_PRESSES.mouse[b] == nil then return end
-  if #INPUT_PRESSES.mouse[b] == INPUT_PRESSES_BUFFER then table.remove(INPUT_PRESSES.mouse[b]) end
-  table.insert(INPUT_PRESSES.mouse[b], 1, {x=x, y=y, t=t})
+function inputs.storeMousePress(x, y, b, t, STATE)
+  -- deselect text boxes by default (they will reselect themselves if clicked on)
+  STATE.INPUT_TEXT_KEY = nil
+  print('set input text key', STATE.INPUT_TEXT_KEY)
+  if STATE.INPUT_PRESSES.mouse[b] == nil then return end
+  if #STATE.INPUT_PRESSES.mouse[b] == STATE.INPUT_PRESSES_BUFFER then table.remove(STATE.INPUT_PRESSES.mouse[b]) end
+  table.insert(STATE.INPUT_PRESSES.mouse[b], 1, {x=x, y=y, t=t})
 end
 
 function inputs.storeHeld(INPUTS_HELD, INPUTS_HELD_BUFFER)
