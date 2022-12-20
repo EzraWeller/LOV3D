@@ -12,6 +12,7 @@ function draw.level(BAKED_LEVEL)
           love.graphics.polygon("fill", polygon)
         end
       elseif layer.type == "2D" then
+        print('entity', entity, entity.asset)
         drawButton(entity.asset, entity.transform)
       end
     end

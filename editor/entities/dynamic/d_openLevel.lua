@@ -16,6 +16,5 @@ return {
   },
   transform={0, 0},
   update=function(self, STATE)
-    self.asset.text = STATE.TEXT[textInputKey]
   end
 }

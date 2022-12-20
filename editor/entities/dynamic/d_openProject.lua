@@ -1,10 +1,5 @@
-local textInputKey = "OpenLevelPath"
-
-function OpenLevelPathOnClick(STATE)
-  print('open layer path callback')
-  STATE.INPUT_MODES.typing = true
-  STATE.INPUT_MODES.camera = false
-  STATE.TEXT_INPUT_KEY = textInputKey
+function openProjectOnClick(STATE)
+  print('open project callback')
 end
 
 return {
@@ -12,15 +7,14 @@ return {
   assetType="text",
   dimensions="2D",
   asset={
-    text="/",
+    text="Open Project",
     fontSize=12,
     bgColor={0,0,0,1},
     textColor={1,1,1,1},
     padding={x=20, y=20},
-    onClick=function(STATE) OpenLevelPathOnClick(STATE) end
+    onClick=function(STATE) openProjectOnClick(STATE) end
   },
   transform={0, 0},
   update=function(self, STATE)
-    self.asset.text = STATE.TEXT[textInputKey]
   end
 }

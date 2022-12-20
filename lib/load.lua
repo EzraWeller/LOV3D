@@ -7,6 +7,7 @@ function load.entities(LEVEL, ACTORS, ASSETS, editor)
   for i, layer in ipairs(LEVEL.layers) do
     for j, e in pairs(layer.entities) do
       layer.entities[j] = load.entity(e, ASSETS, editor)
+      print('entity asset', layer.entities[j].asset)
       if e.entityType == "dynamic" or e.entityType == "puppet" then
         table.insert(ACTORS, layer.entities[j])
       end
@@ -15,6 +16,7 @@ function load.entities(LEVEL, ACTORS, ASSETS, editor)
 end
 
 function load.entity(entity, ASSETS, editor)
+  print('loading entity', entity.name)
   local loadedE = require(editor.."/entities/" .. entity.type .. "/" .. entity.name)
   override(loadedE, entity)
   loadedE.asset = load.entityAsset(loadedE, ASSETS, editor)
@@ -34,7 +36,7 @@ function load.entityAsset(e, ASSETS, editor)
       ASSET[e.asset] = obj.load(editor.."assets/" .. e.assetType .. "/" .. e.asset .. ".obj")
     end
   elseif e.assetType == "button" then
-    -- buttons are already lua
+    -- buttons already have their asset
     asset = e.asset
   end
   return asset

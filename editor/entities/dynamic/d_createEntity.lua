@@ -1,8 +1,5 @@
 function createEntityOnClick(STATE)
   print('open layer path callback')
-  STATE.INPUT_MODES.typing = true
-  STATE.INPUT_MODES.camera = false
-  STATE.TEXT_INPUT_KEY = textInputKey
 end
 
 return {
@@ -19,6 +16,5 @@ return {
   },
   transform={0, 0},
   update=function(self, STATE)
-    self.asset.text = STATE.TEXT[textInputKey]
   end
 }

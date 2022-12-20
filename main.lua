@@ -63,7 +63,7 @@ function love.load()
   STATE.PROJECT = project.open(PROJECT_PATH)
 
   -- set default editor level to import
-  STATE.LEVEL = json.decode(io.input("editor/levels/l_shell.json", "r"):read("a"))
+  STATE.LEVEL = json.decode(io.input("editor/levels/l_editor.json", "r"):read("a"))
 
   -- Import entities with level-specific settings
   load.entities(STATE.LEVEL, STATE.ACTORS, STATE.ASSETS, "editor")
