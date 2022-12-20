@@ -1,0 +1,49 @@
+{
+  "layers": [
+    {
+      "type": "2D",
+      "entities": [
+        {
+          "type": "dynamic",
+          "name": "d_levelPath",
+          "overrides": {
+            "transform": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "type": "dynamic",
+          "name": "d_openLevel",
+          "overrides": {
+            "transform": [
+              0,
+              50
+            ]
+          }
+        },
+        {
+          "type": "dynamic",
+          "name": "d_entityPath",
+          "overrides": {
+            "transform": [
+              0,
+              100
+            ]
+          }
+        },
+        {
+          "type": "dynamic",
+          "name": "d_createEntity",
+          "overrides": {
+            "transform": [
+              0,
+              150
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
