@@ -35,14 +35,19 @@ function load.entityAsset(e, ASSETS, editor)
       ASSET[e.asset] = obj.load(editor.."assets/" .. e.assetType .. "/" .. e.asset .. ".obj")
     end
   elseif e.assetType == "UI" then
-    asset = e.asset
-    love.graphics.setNewFont(asset.fontSize)
-    asset.font = love.graphics.getFont()
-    asset.text = love.graphics.newText(asset.font, asset.text)
-    local w, h = asset.text:getDimensions()
-    asset.w = w + asset.padding.x
-    asset.h = h + asset.padding.y
+    asset = load.uiAsset(e)
   end
+  return asset
+end
+
+function load.uiAsset(ui)
+  local asset = ui.asset
+  love.graphics.setNewFont(asset.fontSize)
+  asset.font = love.graphics.getFont()
+  asset.text = love.graphics.newText(asset.font, asset.text)
+  local w, h = asset.text:getDimensions()
+  asset.w = w + asset.padding.x
+  asset.h = h + asset.padding.y
   return asset
 end
 

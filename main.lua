@@ -69,7 +69,15 @@ function love.textinput(t)
 end
 function love.keypressed(k, s, r)
   local t = love.timer.getTime()
-  inputs.storeKeyboardPress(k, t, STATE.INPUT_PRESSES, STATE.INPUT_PRESSES_BUFFER)
+  inputs.storeKeyboardPress(
+    k, 
+    t, 
+    STATE.INPUT_PRESSES, 
+    STATE.INPUT_PRESSES_BUFFER, 
+    STATE.INPUT_MODES, 
+    STATE.INPUT_TEXT, 
+    STATE.INPUT_TEXT_KEY
+  )
 end
 function love.mousepressed(x, y, button)
   local t = love.timer.getTime()

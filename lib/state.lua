@@ -15,7 +15,7 @@ local STATE = {
       l={},m={},n={},o={},p={},q={},r={},s={},t={},u={},
       v={},w={},x={},y={},z={},
       up={},down={},left={},right={},
-      space={},escape={},enter={}
+      space={},escape={},enter={},backspace={}
     },
     mouse = {{},{}}
   },
@@ -26,7 +26,7 @@ local STATE = {
       l={},m={},n={},o={},p={},q={},r={},s={},t={},u={},
       v={},w={},x={},y={},z={},
       up={},down={},left={},right={},
-      space={},escape={},enter={}
+      space={},escape={},enter={},backspace={}
     },
     mouse = {{},{}}
   },

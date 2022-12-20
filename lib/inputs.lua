@@ -7,10 +7,16 @@ function inputs.storeText(t, INPUT_MODES, INPUT_TEXT, INPUT_TEXT_KEY)
   end
 end
 
-function inputs.storeKeyboardPress(k, t, INPUT_PRESSES, INPUT_PRESSES_BUFFER)
+function inputs.storeKeyboardPress(k, t, INPUT_PRESSES, INPUT_PRESSES_BUFFER, INPUT_MODES, INPUT_TEXT, INPUT_TEXT_KEY)
   if INPUT_PRESSES.keyboard[k] == nil then return end
   if #INPUT_PRESSES.keyboard[k] == INPUT_PRESSES_BUFFER then table.remove(INPUT_PRESSES.keyboard[k]) end
   table.insert(INPUT_PRESSES.keyboard[k], 1, t)
+
+  if arrays.containsElement("text", INPUT_MODES) and 
+    INPUT_TEXT[INPUT_TEXT_KEY] ~= nil and
+    k == "backspace" then
+    INPUT_TEXT[INPUT_TEXT_KEY] = string.sub(INPUT_TEXT[INPUT_TEXT_KEY], 1, -2)
+  end
 end
 
 function inputs.storeMousePress(x, y, b, t, INPUT_PRESSES, INPUT_PRESSES_BUFFER)

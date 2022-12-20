@@ -1,9 +1,9 @@
-local textInputKey = "ProjectPath"
+local inputTextKey = "ProjectPath"
+local previousText = "/"
 
 function projectPathOnClick(STATE)
-  print('project path on click')
-    -- set input modes to only "text" and TEXT_INPUT_KEY to this UI element's textInputKey
-    -- remove other input modes
+  STATE.INPUT_MODES = {"text"}
+  STATE.INPUT_TEXT_KEY = inputTextKey
 end
 
 function rectangleClicked(rect, click)
@@ -28,13 +28,14 @@ function update(self, STATE, t)
       table.remove(STATE.INPUT_PRESSES.mouse[1], i)
     end
   end
-  -- get all mouse button 1 clicks with time buffer
-  -- for each, see if it's location was within this UI element's boundary
-  -- if it was, 
-    -- remove that input 
-    -- call onClick
   
-  -- set this UI element's text to the current TEXT[textInputKey]
+  local newText = STATE.INPUT_TEXT[inputTextKey]
+  if newText ~= nil and newText ~= previousText then
+    self.asset.text:set(newText)
+    previousText = newText
+    local w, h = self.asset.text:getDimensions()
+    self.asset.w = w + self.asset.padding.x
+  end
 end
 
 return {
@@ -42,7 +43,7 @@ return {
   assetType="UI",
   dimensions="2D",
   asset={
-    text="/",
+    text=previousText,
     fontSize=12,
     bgColor={0.5,0.5,0.5,1},
     textColor={1,1,1,1},
