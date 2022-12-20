@@ -1,0 +1,92 @@
+{
+  "layers": [
+    {
+      "type": "3D",
+      "entities": [
+        {
+          "type": "static",
+          "name": "s_cube",
+          "overrides": {
+            "transform": [
+              [
+                2,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                2,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                2,
+                0
+              ],
+              [
+                0,
+                0,
+                90,
+                1
+              ]
+            ],
+            "color": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "type": "dynamic",
+          "name": "d_cube",
+          "overrides": {
+            "transform": [
+              [
+                1,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                0,
+                50,
+                1
+              ]
+            ],
+            "color": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "2D",
+      "entities": [
+        {
+          "type": "static",
+          "name": "s_openLevelButton"
+        }
+      ]
+    }
+  ]
+}
