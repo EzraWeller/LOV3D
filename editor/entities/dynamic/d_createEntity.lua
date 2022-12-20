@@ -4,7 +4,7 @@ end
 
 return {
   entityType="dynamic",
-  assetType="button",
+  assetType="UI",
   dimensions="2D",
   asset={
     text="Create Entity",
@@ -15,6 +15,6 @@ return {
     onClick=function(STATE) createEntityOnClick(STATE) end
   },
   transform={0, 0},
-  update=function(self, STATE)
+  update=function(self, STATE, t)
   end
 }

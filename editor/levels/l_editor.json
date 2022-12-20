@@ -18,14 +18,14 @@
           "name": "d_projectPath",
           "overrides": {
             "transform": [
-              60,
+              100,
               0
             ]
           }
         },
         {
           "type": "dynamic",
-          "name": "d_levelPath",
+          "name": "d_openLevel",
           "overrides": {
             "transform": [
               0,
@@ -35,7 +35,17 @@
         },
         {
           "type": "dynamic",
-          "name": "d_openLevel",
+          "name": "d_levelPath",
+          "overrides": {
+            "transform": [
+              100,
+              30
+            ]
+          }
+        },
+        {
+          "type": "dynamic",
+          "name": "d_createEntity",
           "overrides": {
             "transform": [
               0,
@@ -48,18 +58,8 @@
           "name": "d_entityPath",
           "overrides": {
             "transform": [
-              0,
-              90
-            ]
-          }
-        },
-        {
-          "type": "dynamic",
-          "name": "d_createEntity",
-          "overrides": {
-            "transform": [
-              0,
-              120
+              100,
+              60
             ]
           }
         }

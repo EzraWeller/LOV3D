@@ -44,23 +44,13 @@ STATE = require "lib/state"
 -- Basically, the open script would replace this directory's assets, entities, and levels folders with another directory's.
 -- The save script would do the reverse: replace the original directory's folders with this one's.
 
-PROJECT_PATH = "~/workspace/LOVE/test_project"
+PROJECT_PATH = "test_project"
 
 --[[ ONCE AT START ]]--
 function love.load()
   -- TODO: do all this in the UI instead
   -- open project
-  local projectOpen = love.filesystem.getInfo("openProject")
-  if projectOpen ~= nil then
-    local openProject = love.filesystem.read("openProject")
-    local yesNo = cli.yesNo("The project at "..openProject.." was last open. Opening will delete unsaved progress. Continue opening?")
-    if yesNo == false then 
-      print("Open aborted. To save, run...")
-      love.event.quit()
-      return
-    end
-  end
-  STATE.PROJECT = project.open(PROJECT_PATH)
+  -- STATE.PROJECT = project.open(PROJECT_PATH)
 
   -- set default editor level to import
   STATE.LEVEL = json.decode(io.input("editor/levels/l_editor.json", "r"):read("a"))
@@ -78,20 +68,23 @@ function love.textinput(t)
   inputs.storeText(t, STATE.INPUT_MODES, STATE.INPUT_TEXT, STATE.INPUT_TEXT_KEY)
 end
 function love.keypressed(k, s, r)
-  inputs.storeKeyboardPress(k, STATE.INPUT_PRESSES, STATE.INPUT_PRESSES_BUFFER)
+  local t = love.timer.getTime()
+  inputs.storeKeyboardPress(k, t, STATE.INPUT_PRESSES, STATE.INPUT_PRESSES_BUFFER)
 end
 function love.mousepressed(x, y, button)
-  inputs.storeMousePress(x, y, button, STATE.INPUT_PRESSES, STATE.INPUT_PRESSES_BUFFER)
+  local t = love.timer.getTime()
+  inputs.storeMousePress(x, y, button, t, STATE.INPUT_PRESSES, STATE.INPUT_PRESSES_BUFFER)
 end
 
 --[[ EVERY TICK: store held inputs and update state ]]--
 function love.update()
-  -- record held inputs
+  -- record held input like keys being held down
   inputs.storeHeld(STATE.INPUTS_HELD, STATE.INPUTS_HELD_BUFFER)
 
   -- update entities
   camera.update(STATE)
-  for i, e in ipairs(STATE.ACTORS) do e.update(e, STATE) end
+  local t = love.timer.getTime()
+  for i, e in ipairs(STATE.ACTORS) do e.update(e, STATE, t) end
 
   -- convert level state into form LOVE2D can render 
   if STATE.LEVEL ~= nil then STATE.BAKED_LEVEL = bake.level(STATE.LEVEL, STATE.ASSETS, STATE.CAMERA) end

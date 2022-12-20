@@ -21,8 +21,8 @@ function bake.level(LEVEL, ASSETS, CAMERA)
     elseif layer.type == "2D" then
       BAKED_LEVEL[i].entities = {}
       for j, entity in ipairs(layer.entities) do
-        -- right now, buttons are the only 2D asset
-        local bb = bake.button(entity)
+        -- right now, UIs are the only 2D asset
+        local bb = bake.UI(entity)
         BAKED_LEVEL[i].entities[j] = bb
       end
     end
@@ -101,9 +101,9 @@ function vertex3dTo2d(vertex3d, CAMERA)
   return {{transformed[1], transformed[2]}, inFront}
 end
 
-function bake.button(button)
-  -- not doing anything yet
-  return button
+function bake.UI(UI)
+  -- nothing needed
+  return UI
 end
 
 return bake

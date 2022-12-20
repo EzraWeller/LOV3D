@@ -30,7 +30,8 @@ local STATE = {
     },
     mouse = {{},{}}
   },
-  INPUT_PRESSES_BUFFER = 100,
+  INPUT_PRESSES_BUFFER = 2,
+  INPUT_MS_BUFFER = 50 / 1000,
   INPUT_TEXT = {},
   INPUT_TEXT_KEY = nil,
   CAMERA = {

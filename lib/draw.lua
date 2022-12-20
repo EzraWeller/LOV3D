@@ -12,24 +12,17 @@ function draw.level(BAKED_LEVEL)
           love.graphics.polygon("fill", polygon)
         end
       elseif layer.type == "2D" then
-        print('entity', entity, entity.asset)
-        drawButton(entity.asset, entity.transform)
+        drawUI(entity.asset, entity.transform)
       end
     end
   end
 end
 
-function drawButton(asset, transform)
-  love.graphics.setNewFont(asset.fontSize)
-  local font = love.graphics.getFont()
-  local text = love.graphics.newText(font, asset.text)
-  local w, h = text.getDimensions(text)
+function drawUI(asset, transform)
   love.graphics.setColor(asset.bgColor)
-  asset.w = w + asset.padding.x
-  if asset.h == nil then asset.h = h + asset.padding.y end
   love.graphics.rectangle("fill", transform[1], transform[2], asset.w, asset.h)
   love.graphics.setColor(asset.textColor)
-  love.graphics.draw(text, transform[1] + asset.padding.x/2, transform[2] + asset.padding.y/2)
+  love.graphics.draw(asset.text, transform[1] + asset.padding.x/2, transform[2] + asset.padding.y/2)
 end
 
 return draw

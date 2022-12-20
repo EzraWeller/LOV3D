@@ -34,13 +34,26 @@ local project = {}
 ]]--
 
 function project.open(path)
+  local projectOpen = love.filesystem.getInfo("openProject")
+  if projectOpen ~= nil then
+    local openProject = love.filesystem.read("openProject")
+    local yesNo = cli.yesNo('The project at "'..openProject..'" was last open. Opening will delete unsaved progress. Continue opening?')
+    if yesNo == false then 
+      print("Open aborted. To save, run...")
+      love.event.quit()
+      return
+    end
+  end
+
   local rootFolders = listFolders(path)
   if validateFolders(rootFolders, {"assets", "entities", "levels"}) == false then
+    love.event.quit()
     return error.new("project", "invalid project root folder structure")
   end
 
   local entitiesFolders = listFolders(path.."/entities")
   if validateFolders(entitiesFolders, {"dynamic","puppet","static"}) == false then
+    love.event.quit()
     return error.new("project", "invalid project entities folder structure")
   end
 

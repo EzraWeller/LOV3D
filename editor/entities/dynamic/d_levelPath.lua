@@ -6,7 +6,7 @@ end
 
 return {
   entityType="dynamic",
-  assetType="button",
+  assetType="UI",
   dimensions="2D",
   asset={
     text="/",
@@ -17,7 +17,6 @@ return {
     onClick=function(STATE) levelPathOnClick(STATE) end
   },
   transform={0, 0},
-  update=function(self, STATE)
-    self.asset.text = STATE.TEXT[textInputKey]
+  update=function(self, STATE, t)
   end
 }
