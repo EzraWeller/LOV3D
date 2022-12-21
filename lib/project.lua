@@ -35,6 +35,8 @@ local project = {}
 
 function project.open(path)
   local projectOpen = love.filesystem.getInfo("openProject")
+  
+  -- TODO replace this with IN GAME UI, not command line
   if projectOpen ~= nil then
     local openProject = love.filesystem.read("openProject")
     local yesNo = cli.yesNo('The project at "'..openProject..'" was last open. Opening will delete unsaved progress. Continue opening?')
@@ -44,7 +46,7 @@ function project.open(path)
       return
     end
   end
-
+  --[[
   local rootFolders = listFolders(path)
   if validateFolders(rootFolders, {"assets", "entities", "levels"}) == false then
     love.event.quit()
@@ -77,6 +79,7 @@ function project.open(path)
     },
     levels=listLuaFiles("levels", "json")
   }
+  ]]--
 end
 
 function listFolders(path)

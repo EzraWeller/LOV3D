@@ -16,18 +16,23 @@ function clicked.update(self, STATE, t, shape, onClick, otherClick)
     if c.t > t - STATE.INPUT_MS_BUFFER then
       clickedOn = false
       if shape == "rectangle" then 
+        print('shape is rectangle')
         clickedOn = clicked.rectangle({
           x=self.transform[1],
           y=self.transform[2],
           w=self.asset.w,
           h=self.asset.h
         }, c) 
+        print('clicked on', clickedOn)
       end
       if clickedOn then
         table.remove(STATE.INPUT_PRESSES.mouse[1], i)
-        if onClick then onClick(self, STATE, t) end
+        if onClick ~= nil then 
+          print('calling onClick')
+          onClick(self, STATE, t) 
+        end
       else
-        if otherClick then otherClick(self, STATE, t) end
+        if otherClick ~= nil then otherClick(self, STATE, t) end
       end
     else
       -- This should only fire if the input isn't be used by anything right now

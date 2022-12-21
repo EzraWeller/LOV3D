@@ -5,21 +5,22 @@ local inputTextKey = "ProjectPath"
 local previousText = "  "
 local selected = false
 local lastFlash
-function setLastFlash(time) lastFlash = time end
+local function setLastFlash(time) lastFlash = time end
 local barVisible = false
-function setBar(bool) barVisible = bool end
+local function setBar(bool) barVisible = bool end
 
-function onClick(STATE)
+local function onClick(self, STATE, t)
+  print('project path onClick')
   selected = true
   STATE.INPUT_MODES = {"text"}
   STATE.INPUT_TEXT_KEY = inputTextKey
 end
 
-function otherClick(STATE)
+local function otherClick(self, STATE, t)
   selected = false
 end
 
-function update(self, STATE, t)
+local function update(self, STATE, t)
   clicked.update(self, STATE, t, "rectangle", onClick, otherClick)
   textBox.update(self, STATE, t, inputTextKey, selected, barVisible, setBar, lastFlash, setLastFlash)
 end

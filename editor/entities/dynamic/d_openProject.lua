@@ -2,23 +2,24 @@ clicked = require "lib/clicked"
 project = require "lib/project"
 
 local inputTextKey = "ProjectPath"
---[[
-function onClick(self, STATE, t)
+
+local function onClick(self, STATE, t)
   -- if INPUT_TEXT[inputTextKey] is not nil,
   -- attempt to open project at that path
+  print('open project onClick')
   local path = STATE.INPUT_TEXT[inputTextKey]
+  print('path', path)
   if path ~= nil then
     project.open(path)
   end
 end
 
-function otherClick(self, STATE, t)
+local function otherClick(self, STATE, t)
 end
 
-function update(self, STATE, t)
+local function update(self, STATE, t)
   clicked.update(self, STATE, t, "rectangle", onClick, otherClick)
 end
-]]--
 
 return {
   entityType="dynamic",
@@ -32,5 +33,5 @@ return {
     padding={x=20, y=20}
   },
   transform={0, 0},
-  update=function() end
+  update=update
 }
