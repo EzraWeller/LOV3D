@@ -16,8 +16,7 @@ return {
     fontSize=12,
     bgColor={0,0,0,1},
     textColor={1,1,1,1},
-    padding={x=20, y=20},
-    onClick=function(STATE) OpenLevelPathOnClick(STATE) end
+    padding={x=20, y=20}
   },
   transform={0, 0},
   update=function(self, STATE, t)

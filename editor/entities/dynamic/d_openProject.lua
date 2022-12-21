@@ -1,6 +1,24 @@
-function openProjectOnClick(STATE)
-  print('open project callback')
+clicked = require "lib/clicked"
+project = require "lib/project"
+
+local inputTextKey = "ProjectPath"
+--[[
+function onClick(self, STATE, t)
+  -- if INPUT_TEXT[inputTextKey] is not nil,
+  -- attempt to open project at that path
+  local path = STATE.INPUT_TEXT[inputTextKey]
+  if path ~= nil then
+    project.open(path)
+  end
 end
+
+function otherClick(self, STATE, t)
+end
+
+function update(self, STATE, t)
+  clicked.update(self, STATE, t, "rectangle", onClick, otherClick)
+end
+]]--
 
 return {
   entityType="dynamic",
@@ -11,10 +29,8 @@ return {
     fontSize=12,
     bgColor={0.5,0.5,0.5,1},
     textColor={1,1,1,1},
-    padding={x=20, y=20},
-    onClick=function(STATE) openProjectOnClick(STATE) end
+    padding={x=20, y=20}
   },
   transform={0, 0},
-  update=function(self, STATE, t)
-  end
+  update=function() end
 }

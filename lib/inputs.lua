@@ -1,12 +1,11 @@
 local inputs = {}
 
+-- TODO should presses and holds instead be united and each input has things like start and end?
+
 function inputs.storeText(t, INPUT_MODES, INPUT_TEXT, INPUT_TEXT_KEY)
-  print('input modes', INPUT_MODES)
   if arrays.containsElement("text", INPUT_MODES) then
-    print('text input mode active')
     if INPUT_TEXT_KEY~= nil then
       INPUT_TEXT[INPUT_TEXT_KEY] = (INPUT_TEXT[INPUT_TEXT_KEY] or "") .. t
-      print('updated text', INPUT_TEXT_KEY, INPUT_TEXT[INPUT_TEXT_KEY])
     end
   end
 end
@@ -26,7 +25,6 @@ end
 function inputs.storeMousePress(x, y, b, t, STATE)
   -- deselect text boxes by default (they will reselect themselves if clicked on)
   STATE.INPUT_TEXT_KEY = nil
-  print('set input text key', STATE.INPUT_TEXT_KEY)
   if STATE.INPUT_PRESSES.mouse[b] == nil then return end
   if #STATE.INPUT_PRESSES.mouse[b] == STATE.INPUT_PRESSES_BUFFER then table.remove(STATE.INPUT_PRESSES.mouse[b]) end
   table.insert(STATE.INPUT_PRESSES.mouse[b], 1, {x=x, y=y, t=t})
