@@ -1,24 +1,21 @@
 clicked = require "lib/clicked"
 project = require "lib/project"
 
-local inputTextKey = "ProjectPath"
-
 local function onClick(self, STATE, t)
   -- if INPUT_TEXT[inputTextKey] is not nil,
   -- attempt to open project at that path
-  print('open project onClick')
-  local path = STATE.INPUT_TEXT[inputTextKey]
+  print('confirm open project onClick')
+  local path = STATE.INPUT_TEXT[self.inputTextKey]
   print('path', path)
-  if path ~= nil then
-    project.open(path)
-  end
+  project.open(path)
+  -- delete entities to delete
 end
 
 local function otherClick(self, STATE, t)
 end
 
 local function update(self, STATE, t)
-  clicked.update(self, STATE, t, "rectangle", onClick, otherClick)
+  clicked.update(self, STATE, t)
 end
 
 return {
@@ -26,12 +23,16 @@ return {
   assetType="UI",
   dimensions="2D",
   asset={
-    text="Open Project",
+    text="Continue",
     fontSize=12,
     bgColor={0.5,0.5,0.5,1},
     textColor={1,1,1,1},
     padding={x=20, y=20}
   },
   transform={0, 0},
-  update=update
+  onClick=onClick,
+  otherClick=otherClick,
+  update=update,
+  inputTextKey="ProjectPath",
+  entitiesToDelete={}
 }

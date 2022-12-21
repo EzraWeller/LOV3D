@@ -11,9 +11,9 @@ local function setBar(bool) barVisible = bool end
 
 local function onClick(self, STATE, t)
   print('project path onClick')
-  selected = true
+  self.selected = true
   STATE.INPUT_MODES = {"text"}
-  STATE.INPUT_TEXT_KEY = inputTextKey
+  STATE.INPUT_TEXT_KEY = self.inputTextKey
 end
 
 local function otherClick(self, STATE, t)
@@ -21,8 +21,8 @@ local function otherClick(self, STATE, t)
 end
 
 local function update(self, STATE, t)
-  clicked.update(self, STATE, t, "rectangle", onClick, otherClick)
-  textBox.update(self, STATE, t, inputTextKey, selected, barVisible, setBar, lastFlash, setLastFlash)
+  clicked.update(self, STATE, t)
+  textBox.update(self, STATE, t)
 end
 
 return {
@@ -37,5 +37,13 @@ return {
     padding={x=20, y=20}
   },
   transform={0, 0},
-  update=update
+  update=update,
+  onClick=onClick,
+  otherClick=otherClick,
+  shape="rectangle",
+  inputTextKey = "ProjectPath",
+  previousText = "  ",
+  selected = false,
+  lastFlash = nil,
+  barVisible = false
 }

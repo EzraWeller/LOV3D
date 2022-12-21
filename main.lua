@@ -10,6 +10,11 @@ cli = require "lib/cli"
 -- caps to help make state more identifiable when reading
 STATE = require "lib/state"
 
+-- TODO non-local variables are universal, which means 
+  -- we don't need to pass STATE around everywhere, we just have it already
+  -- we can even set the current time t in love.update() and then set that in STATE or something, then don't need to pass that around either
+  -- we can import all libs in main and then we don't need to import them anywhere else: we can just use them
+
 --[[ ARCHITECTURE ]]
 -- ASSETS are raw files that will be used by the game to construct game objects: .obj, .wav, .png, etc.
 -- ENTITIES are lua structures that can be interpreted and used by the game

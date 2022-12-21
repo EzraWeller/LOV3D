@@ -1,28 +1,8 @@
 arrays = require "lib/arrays"
 error = require "lib/error"
+load = require "lib/load"
 
 local project = {}
-
---[[ spec ]]--
---open project
-  -- input path to a folder
-  -- check that the folder has this structure:
-    -- project folder
-      -- assets
-      -- entities
-        -- dynamic
-        -- puppet
-        -- static
-      -- levels
-  -- return an table like:
-    -- { entities = {dynamic = {files names}, puppet = {file names}, static={file names}}, levels = {file names} }
--- elsewhere: create a set of UI things that show this file structure, letting you choose a level
--- open level
-  -- project must be loaded
-  -- input path to a level in the project
-  -- attempt to load the level into the editor
--- save level
-  -- 
 
 --[[
   Valid project file structure:
@@ -34,19 +14,6 @@ local project = {}
 ]]--
 
 function project.open(path)
-  local projectOpen = love.filesystem.getInfo("openProject")
-  
-  -- TODO replace this with IN GAME UI, not command line
-  if projectOpen ~= nil then
-    local openProject = love.filesystem.read("openProject")
-    local yesNo = cli.yesNo('The project at "'..openProject..'" was last open. Opening will delete unsaved progress. Continue opening?')
-    if yesNo == false then 
-      print("Open aborted. To save, run...")
-      love.event.quit()
-      return
-    end
-  end
-  --[[
   local rootFolders = listFolders(path)
   if validateFolders(rootFolders, {"assets", "entities", "levels"}) == false then
     love.event.quit()
@@ -79,7 +46,6 @@ function project.open(path)
     },
     levels=listLuaFiles("levels", "json")
   }
-  ]]--
 end
 
 function listFolders(path)
