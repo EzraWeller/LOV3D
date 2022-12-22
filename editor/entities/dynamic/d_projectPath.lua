@@ -1,5 +1,4 @@
 local function onClick(self)
-  print('project path onClick')
   self.selected = true
   STATE.INPUT_MODES = {"text"}
   STATE.INPUT_TEXT_KEY = self.inputTextKey

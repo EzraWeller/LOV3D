@@ -1,3 +1,11 @@
+local function addEntitiesToDelete(addeeIds, entitiesToDelete)
+  local addee
+  for i, id in ipairs(addeeIds) do
+    addee = STATE.LEVEL.layers[id.layerIndex].entities[id.entityIndex]
+    addee.entitiesToDelete = entitiesToDelete
+  end
+end
+
 local function onClick(self)
   local path = STATE.INPUT_TEXT[self.inputTextKey]
   if path ~= nil then
@@ -6,20 +14,34 @@ local function onClick(self)
       local openProject = love.filesystem.read("openProject")
       -- spawn open project info, confirm open project, and cancel open project
       local w, h = love.graphics.getDimensions()
-      spawn.entity({
+      local openProjectInfoId = spawn.entity({
         type="static",
         name="s_openProjectInfo",
         overrides={
           asset={
-            text='Open project at "'..path..'" ? Previously, "'..openProject..'" was open and unsaved progress will be lost.',
+            text='Open project at "'..path..'"? \nProject at "'..openProject..'" \nwas/is open and unsaved progress will be lost.',
             fontSize=12,
-            bgColor={0.5,0.5,0.5,1},
-            textColor={1,1,1,1},
+            bgColor={1,1,1,1},
+            textColor={0,0,0,1},
             padding={x=20, y=20}
           },
-          transform={w/2, h/2}
+          transform={w/4, h/4}
         }
       }, #STATE.LEVEL.layers, "editor")
+      local confirmOpenProjectId = spawn.entity({
+        type="dynamic",
+        name="d_confirmOpenProject",
+        overrides={transform={w/4, h/4 + 70}}
+      }, #STATE.LEVEL.layers, "editor")
+      local cancelOpenProjectId = spawn.entity({
+        type="dynamic",
+        name="d_cancelOpenProject",
+        overrides={transform={w/4 + 100, h/4 + 70}}
+      }, #STATE.LEVEL.layers, "editor")
+      addEntitiesToDelete(
+        {confirmOpenProjectId, cancelOpenProjectId},
+        {openProjectInfoId, confirmOpenProjectId, cancelOpenProjectId}
+      )
     end
   end
 end

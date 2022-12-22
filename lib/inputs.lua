@@ -6,7 +6,6 @@ function inputs.storeText(t)
   if arrays.containsElement("text", STATE.INPUT_MODES) then
     if STATE.INPUT_TEXT_KEY~= nil then
       STATE.INPUT_TEXT[STATE.INPUT_TEXT_KEY] = (STATE.INPUT_TEXT[STATE.INPUT_TEXT_KEY] or "") .. t
-      print('updated text at'..STATE.INPUT_TEXT_KEY.." to "..STATE.INPUT_TEXT[STATE.INPUT_TEXT_KEY])
     end
   end
 end
