@@ -1,7 +1,3 @@
-arrays = require "lib/arrays"
-error = require "lib/error"
-load = require "lib/load"
-
 local project = {}
 
 --[[

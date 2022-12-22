@@ -49,7 +49,8 @@ local STATE = {
       },
       size={x=1366, y=768}
     }
-  }
+  },
+  TIME=0
 }
 
 return STATE

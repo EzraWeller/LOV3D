@@ -1,21 +1,20 @@
-vectors = require "lib/vectors"
-matrices = require "lib/matrices"
-
 local camera = {}
 
-function moveCamForward(CAMERA)
+function moveCamForward()
   -- move "forward": + camera vector times speed
+  local CAMERA = STATE.CAMERA
   local change = vectors.times(CAMERA.viewport.basis[3], CAMERA.movementSpeed)
   CAMERA.position = vectors.plus(CAMERA.position, change)
 end
 
-function moveCamBackward(CAMERA)
+function moveCamBackward()
   -- move "backward": - camera vector times speed
+  local CAMERA = STATE.CAMERA
   local change = vectors.times(CAMERA.viewport.basis[3], CAMERA.movementSpeed)
   CAMERA.position = vectors.minus(CAMERA.position, change)
 end
 
-function rotateCamUp(CAMERA)
+function rotateCamUp()
   -- turn camera up
   --[[
   local IBasis = matrices.invert(viewport.basis)
@@ -24,27 +23,31 @@ function rotateCamUp(CAMERA)
   viewport.basis = matrices.multiply(viewport.basis, nb2)
   viewport.center = findViewportCenter()
   ]]--
+  local CAMERA = STATE.CAMERA
   CAMERA.viewport.basis[1] = vectors.rotateOnAxis(CAMERA.viewport.basis[1], CAMERA.rotationSpeed, "x")
   CAMERA.viewport.basis[2] = vectors.rotateOnAxis(CAMERA.viewport.basis[2], CAMERA.rotationSpeed, "x")
   CAMERA.viewport.basis[3] = vectors.rotateOnAxis(CAMERA.viewport.basis[3], CAMERA.rotationSpeed, "x")
 end
 
-function rotateCamDown(CAMERA)
+function rotateCamDown()
   -- turn camera down
+  local CAMERA = STATE.CAMERA
   CAMERA.viewport.basis[1] = vectors.rotateOnAxis(CAMERA.viewport.basis[1], -1 * CAMERA.rotationSpeed, "x")
   CAMERA.viewport.basis[2] = vectors.rotateOnAxis(CAMERA.viewport.basis[2], -1 * CAMERA.rotationSpeed, "x")
   CAMERA.viewport.basis[3] = vectors.rotateOnAxis(CAMERA.viewport.basis[3], -1 * CAMERA.rotationSpeed, "x")
 end
 
-function rotateCamLeft(CAMERA)
+function rotateCamLeft()
   -- turn camera left
+  local CAMERA = STATE.CAMERA
   CAMERA.viewport.basis[1] = vectors.rotateOnAxis(CAMERA.viewport.basis[1], CAMERA.rotationSpeed, "y")
   CAMERA.viewport.basis[2] = vectors.rotateOnAxis(CAMERA.viewport.basis[2], CAMERA.rotationSpeed, "y")
   CAMERA.viewport.basis[3] = vectors.rotateOnAxis(CAMERA.viewport.basis[3], CAMERA.rotationSpeed, "y")
 end
 
-function rotateCamRight(CAMERA)
+function rotateCamRight()
   -- turn camera right
+  local CAMERA = STATE.CAMERA
   CAMERA.viewport.basis[1] = vectors.rotateOnAxis(CAMERA.viewport.basis[1], -1 * CAMERA.rotationSpeed, "y")
   CAMERA.viewport.basis[2] = vectors.rotateOnAxis(CAMERA.viewport.basis[2], -1 * CAMERA.rotationSpeed, "y")
   CAMERA.viewport.basis[3] = vectors.rotateOnAxis(CAMERA.viewport.basis[3], -1 * CAMERA.rotationSpeed, "y")
@@ -63,7 +66,7 @@ local inputFunctions = {
 
 local entityModes = {"game"}
 
-function camera.update(STATE)
+function camera.update()
   local CAMERA = STATE.CAMERA
   local cameraMoved = false
 
@@ -86,7 +89,8 @@ function camera.update(STATE)
   return cameraMoved
 end
 
-function findViewportCenter(CAMERA)
+function findViewportCenter()
+  local CAMERA = STATE.CAMERA
   return vectors.linearTranslate(
     CAMERA.position,
     CAMERA.viewport.basis[3],

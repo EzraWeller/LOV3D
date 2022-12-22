@@ -1,6 +1,6 @@
-local sorts = {}
+local sort = {}
 
-function sorts.counting(table, key, maxValue)
+function sort.counting(table, key, maxValue)
   local count = {}
   for i=1,maxValue + 1 do count[i] = 0 end
 
@@ -29,4 +29,4 @@ function sorts.counting(table, key, maxValue)
   return output
 end
 
-return sorts
+return sort

@@ -5,7 +5,7 @@
       "entities": [
         {
           "type": "dynamic",
-          "name": "d_openProject",
+          "name": "d_startOpenProject",
           "overrides": {
             "transform": [
               0,
@@ -20,46 +20,6 @@
             "transform": [
               100,
               0
-            ]
-          }
-        },
-        {
-          "type": "dynamic",
-          "name": "d_openLevel",
-          "overrides": {
-            "transform": [
-              0,
-              30
-            ]
-          }
-        },
-        {
-          "type": "dynamic",
-          "name": "d_levelPath",
-          "overrides": {
-            "transform": [
-              100,
-              30
-            ]
-          }
-        },
-        {
-          "type": "dynamic",
-          "name": "d_createEntity",
-          "overrides": {
-            "transform": [
-              0,
-              60
-            ]
-          }
-        },
-        {
-          "type": "dynamic",
-          "name": "d_entityPath",
-          "overrides": {
-            "transform": [
-              100,
-              60
             ]
           }
         }

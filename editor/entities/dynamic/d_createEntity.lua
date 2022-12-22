@@ -1,7 +1,3 @@
-function createEntityOnClick(STATE)
-  print('open layer path callback')
-end
-
 return {
   entityType="dynamic",
   assetType="UI",
@@ -14,6 +10,6 @@ return {
     padding={x=20, y=20}
   },
   transform={0, 0},
-  update=function(self, STATE, t)
+  update=function(self)
   end
 }

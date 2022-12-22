@@ -1,12 +1,22 @@
+arrays = require "lib/arrays"
 bake = require "lib/bake"
 camera = require "lib/camera"
-arrays = require "lib/arrays"
-inputs = require "lib/inputs"
-load = require "lib/load"
-draw = require "lib/draw"
-project = require "lib/project"
-json = require "lib/json"
 cli = require "lib/cli"
+clicked = require "lib/clicked"
+draw = require "lib/draw"
+error = require "lib/error"
+inputs = require "lib/inputs"
+json = require "lib/json"
+load = require "lib/load"
+matrices = require "lib/matrices"
+obj = require "lib/obj"
+project = require "lib/project"
+puppet = require "lib/puppet"
+sort = require "lib/sort"
+spawn = require "lib/spawn"
+ui = require "lib/ui"
+vectors = require "lib/vectors"
+
 -- caps to help make state more identifiable when reading
 STATE = require "lib/state"
 
@@ -49,61 +59,49 @@ STATE = require "lib/state"
 -- Basically, the open script would replace this directory's assets, entities, and levels folders with another directory's.
 -- The save script would do the reverse: replace the original directory's folders with this one's.
 
-PROJECT_PATH = "test_project"
-
 --[[ ONCE AT START ]]--
 function love.load()
-  -- TODO: do all this in the UI instead
-  -- open project
-  -- STATE.PROJECT = project.open(PROJECT_PATH)
+  -- record time
+  STATE.TIME = love.timer.getTime()
 
   -- set default editor level to import
   STATE.LEVEL = json.decode(io.input("editor/levels/l_editor.json", "r"):read("a"))
 
   -- Import entities with level-specific settings
-  load.entities(STATE.LEVEL, STATE.ACTORS, STATE.ASSETS, "editor")
+  load.entities("editor")
 
   -- default to "game" controls
   arrays.addUniqueElement(STATE.INPUT_MODES, "game")
 end
 
 --[[ RECORD INPUT PRESSES ]]--
--- these don't have specific times?
 function love.textinput(t)
-  inputs.storeText(t, STATE.INPUT_MODES, STATE.INPUT_TEXT, STATE.INPUT_TEXT_KEY)
+  inputs.storeText(t)
 end
 function love.keypressed(k, s, r)
-  local t = love.timer.getTime()
-  inputs.storeKeyboardPress(
-    k, 
-    t, 
-    STATE.INPUT_PRESSES, 
-    STATE.INPUT_PRESSES_BUFFER, 
-    STATE.INPUT_MODES, 
-    STATE.INPUT_TEXT, 
-    STATE.INPUT_TEXT_KEY
-  )
+  inputs.storeKeyboardPress(k)
 end
 function love.mousepressed(x, y, button)
-  local t = love.timer.getTime()
-  inputs.storeMousePress(x, y, button, t, STATE)
+  inputs.storeMousePress(x, y, button)
 end
 
 --[[ EVERY TICK: store held inputs and update state ]]--
 function love.update()
+  -- update time
+  STATE.TIME = love.timer.getTime()
+
   -- record held input like keys being held down
-  inputs.storeHeld(STATE.INPUTS_HELD, STATE.INPUTS_HELD_BUFFER)
+  inputs.storeHeld()
 
   -- update entities
-  camera.update(STATE)
-  local t = love.timer.getTime()
-  for i, e in ipairs(STATE.ACTORS) do e.update(e, STATE, t) end
+  camera.update()
+  for i, e in ipairs(STATE.ACTORS) do e.update(e) end
 
   -- convert level state into form LOVE2D can render 
-  if STATE.LEVEL ~= nil then STATE.BAKED_LEVEL = bake.level(STATE.LEVEL, STATE.ASSETS, STATE.CAMERA) end
+  if STATE.LEVEL ~= nil then bake.level() end
 end
 
 --[[ EVERY TICK: draw graphics ]]--
 function love.draw()
-  if STATE.BAKED_LEVEL ~= nil then draw.level(STATE.BAKED_LEVEL) end
+  if STATE.BAKED_LEVEL ~= nil then draw.level() end
 end

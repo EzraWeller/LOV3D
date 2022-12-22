@@ -1,18 +1,15 @@
-vectors = require "lib/vectors"
-sorts = require "lib/sorts"
-
 local bake = {}
 
-function bake.level(LEVEL, ASSETS, CAMERA)
+function bake.level()
   local BAKED_LEVEL = {}
   local j
-  for i, layer in ipairs(LEVEL.layers) do
+  for i, layer in ipairs(STATE.LEVEL.layers) do
     BAKED_LEVEL[i] = {type=layer.type}
     if layer.type == "3D" then
       local maxDistanceToCam = -1
       local uo = {}
       for j, entity in ipairs(layer.entities) do
-        local bo = bake.obj(ASSETS[entity.asset], entity.transform, entity.color, CAMERA)
+        local bo = bake.obj(STATE.ASSETS[entity.asset], entity.transform, entity.color)
         if bo.distanceToCam > maxDistanceToCam then maxDistanceToCam = bo.distanceToCam end
         table.insert(uo, bo)
       end
@@ -22,15 +19,14 @@ function bake.level(LEVEL, ASSETS, CAMERA)
       BAKED_LEVEL[i].entities = {}
       for j, entity in ipairs(layer.entities) do
         -- right now, UIs are the only 2D asset
-        local bb = bake.UI(entity)
-        BAKED_LEVEL[i].entities[j] = bb
+        BAKED_LEVEL[i].entities[j] = bake.UI(entity)
       end
     end
   end
-  return BAKED_LEVEL
+  STATE.BAKED_LEVEL = BAKED_LEVEL
 end
 
-function bake.obj(obj, transform, color, CAMERA)
+function bake.obj(obj, transform, color)
   local bo = {obj={v={}, f=obj.f}, distanceToCam=-1, color=color}
   local vMean = {0,0,0}
   for i, v in ipairs(obj.v) do
@@ -40,8 +36,8 @@ function bake.obj(obj, transform, color, CAMERA)
     vSum = {vMean[1] + v[1], vMean[2] + v[2], vMean[3] + v[3]}
   end
   vMean = {vMean[1]/#obj.v, vMean[2] / #obj.v, vMean[3] / #obj.v}
-  bo.distanceToCam = distanceBetweenPoints(vMean, CAMERA.position)
-  bo.obj = objTo2d(bo.obj, CAMERA)
+  bo.distanceToCam = distanceBetweenPoints(vMean, STATE.CAMERA.position)
+  bo.obj = objTo2d(bo.obj)
   return bo
 end
 
@@ -49,7 +45,7 @@ function distanceBetweenPoints(p1, p2)
   return math.sqrt((p1[1] - p2[1])^2 + (p1[2] - p2[2])^2 + (p1[3] - p2[3])^2)
 end
 
-function objTo2d(obj, CAMERA)
+function objTo2d(obj)
   local polyhedron = {}
   for i=1,#obj.f do
     local f = obj.f[i]
@@ -58,7 +54,7 @@ function objTo2d(obj, CAMERA)
     local missingInt = false
     for j=1, #f do
       local vertex3d = obj.v[f[j].v]
-      local vertex2d = vertex3dTo2d(vertex3d, CAMERA)
+      local vertex2d = vertex3dTo2d(vertex3d)
       if vertex2d[1] == nil then
         missingInt = true
       else
@@ -75,7 +71,8 @@ function objTo2d(obj, CAMERA)
   return polyhedron
 end
 
-function vertex3dTo2d(vertex3d, CAMERA)
+function vertex3dTo2d(vertex3d)
+  local CAMERA = STATE.CAMERA
   -- check if the vertex is in front of the viewport
   local inFront = vectors.dot(
     CAMERA.viewport.basis[3], 
@@ -101,9 +98,9 @@ function vertex3dTo2d(vertex3d, CAMERA)
   return {{transformed[1], transformed[2]}, inFront}
 end
 
-function bake.UI(UI)
+function bake.UI(e)
   -- nothing needed
-  return UI
+  return e
 end
 
 return bake

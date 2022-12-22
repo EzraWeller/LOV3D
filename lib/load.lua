@@ -1,24 +1,22 @@
-obj = require "lib/obj"
-
 local load = {}
 
-function load.entities(LEVEL, ACTORS, ASSETS, editor)
+function load.entities(editor)
   local j
-  for i, layer in ipairs(LEVEL.layers) do
+  for i, layer in ipairs(STATE.LEVEL.layers) do
     for j, e in pairs(layer.entities) do
-      local loadedE = load.entity(e, ASSETS, editor)
+      local loadedE = load.entity(e, editor)
       layer.entities[j] = loadedE
       if loadedE.entityType == "dynamic" or loadedE.entityType == "puppet" then
-        table.insert(ACTORS, loadedE)
+        table.insert(STATE.ACTORS, loadedE)
       end
     end
   end
 end
 
-function load.entity(entity, ASSETS, editor)
+function load.entity(entity, editor)
   local loadedE = require(editor.."/entities/" .. entity.type .. "/" .. entity.name)
   override(loadedE, entity)
-  loadedE.asset = load.entityAsset(loadedE, ASSETS, editor)
+  loadedE.asset = load.entityAsset(loadedE, editor)
   return loadedE
 end
 
@@ -28,11 +26,11 @@ function override(table, o)
   for k, v in pairs(o.overrides) do table[k] = v end
 end
 
-function load.entityAsset(e, ASSETS, editor)
+function load.entityAsset(e, editor)
   local asset
   if e.assetType == "obj" then
-    if ASSET[e.asset] == nil then
-      ASSET[e.asset] = obj.load(editor.."assets/" .. e.assetType .. "/" .. e.asset .. ".obj")
+    if STATE.ASSET[e.asset] == nil then
+      STATE.ASSET[e.asset] = obj.load(editor.."assets/" .. e.assetType .. "/" .. e.asset .. ".obj")
     end
   elseif e.assetType == "UI" then
     asset = load.uiAsset(e)

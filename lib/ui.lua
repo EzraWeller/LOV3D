@@ -3,16 +3,16 @@ local ui = {textBox={}}
 local textBoxBarFlashTime = 0.75
 local textBoxBar = "|"
 
-function ui.textBox.update(self, STATE, t)
-  local newText = STATE.INPUT_TEXT[inputTextKey] or ""
+function ui.textBox.update(self)
+  local newText = STATE.INPUT_TEXT[self.inputTextKey] or ""
   if self.selected then
     -- first time, so toggle bar on
     if self.lastFlash == nil then 
-      self.lastFlash = t
+      self.lastFlash =  STATE.TIME 
       self.barVisible = true
     -- should bar toggle
-    elseif self.lastFlash <= t - textBoxBarFlashTime then
-      self.lastFlash = t
+    elseif self.lastFlash <=  STATE.TIME  - textBoxBarFlashTime then
+      self.lastFlash =  STATE.TIME 
       if self.barVisible == true then
         self.barVisible = false
       else

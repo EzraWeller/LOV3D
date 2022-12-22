@@ -1,10 +1,8 @@
-json = require "lib/json"
-
 local draw = {}
 
-function draw.level(BAKED_LEVEL)
+function draw.level()
   local j, k
-  for i, layer in ipairs(BAKED_LEVEL) do
+  for i, layer in ipairs(STATE.BAKED_LEVEL) do
     for j, entity in pairs(layer.entities) do
       if layer.type == "3D" then
         love.graphics.setColor(entity.color)

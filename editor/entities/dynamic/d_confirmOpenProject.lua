@@ -1,7 +1,4 @@
-clicked = require "lib/clicked"
-project = require "lib/project"
-
-local function onClick(self, STATE, t)
+local function onClick(self)
   -- if INPUT_TEXT[inputTextKey] is not nil,
   -- attempt to open project at that path
   print('confirm open project onClick')
@@ -11,11 +8,11 @@ local function onClick(self, STATE, t)
   -- delete entities to delete
 end
 
-local function otherClick(self, STATE, t)
+local function otherClick(self)
 end
 
-local function update(self, STATE, t)
-  clicked.update(self, STATE, t)
+local function update(self)
+  clicked.update(self)
 end
 
 return {

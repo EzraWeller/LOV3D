@@ -10,29 +10,26 @@ function clicked.rectangle(rect, click)
   return false
 end
 
-function clicked.update(self, STATE, t)
+function clicked.update(self)
   local clickedOn
   for i, c in ipairs(STATE.INPUT_PRESSES.mouse[1]) do
-    if c.t > t - STATE.INPUT_MS_BUFFER then
+    if c.t > STATE.TIME - STATE.INPUT_MS_BUFFER then
       clickedOn = false
-      if self.shape == "rectangle" then 
-        print('shape is rectangle')
+      if self.shape == "rectangle" then
         clickedOn = clicked.rectangle({
           x=self.transform[1],
           y=self.transform[2],
           w=self.asset.w,
           h=self.asset.h
-        }, c) 
-        print('clicked on', clickedOn)
+        }, c)
       end
       if clickedOn then
         table.remove(STATE.INPUT_PRESSES.mouse[1], i)
-        if self.onClick ~= nil then 
-          print('calling onClick')
-          self.onClick(self, STATE, t) 
+        if self.onClick ~= nil then
+          self.onClick(self) 
         end
       else
-        if self.otherClick ~= nil then self.otherClick(self, STATE, t) end
+        if self.otherClick ~= nil then self.otherClick(self) end
       end
     else
       -- This should only fire if the input isn't be used by anything right now

@@ -1,6 +1,6 @@
 clicked = require "lib/clicked"
 
-local function onClick(self, STATE, t)
+local function onClick(self)
   print('cancel open project onClick')
   -- despawn self, confirmOpenProject and openProjectInfo
   -- how do we get references to the correct entities?
@@ -8,11 +8,11 @@ local function onClick(self, STATE, t)
       -- after loading, set entitiesToDelete
 end
 
-local function otherClick(self, STATE, t)
+local function otherClick(self)
 end
 
-local function update(self, STATE, t)
-  clicked.update(self, STATE, t)
+local function update(self)
+  clicked.update(self)
 end
 
 return {

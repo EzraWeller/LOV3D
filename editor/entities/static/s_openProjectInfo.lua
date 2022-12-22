@@ -1,9 +1,9 @@
 return {
-  entityType="dynamic",
+  entityType="static",
   assetType="UI",
   dimensions="2D",
   asset={
-    text="Open Project",
+    text="placeholder",
     fontSize=12,
     bgColor={0.5,0.5,0.5,1},
     textColor={1,1,1,1},
