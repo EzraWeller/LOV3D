@@ -42,6 +42,7 @@ function load.uiAsset(ui)
   local asset = ui.asset
   love.graphics.setNewFont(asset.fontSize)
   asset.font = love.graphics.getFont()
+  print('asset text', asset.text)
   asset.text = love.graphics.newText(asset.font, asset.text)
   local w, h = asset.text:getDimensions()
   asset.w = w + asset.padding.x

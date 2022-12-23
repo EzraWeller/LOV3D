@@ -28,16 +28,19 @@ local function onClick(self)
           transform={w/4, h/4}
         }
       }, #STATE.LEVEL.layers, "editor")
+      print('spawned info')
       local confirmOpenProjectId = spawn.entity({
         type="dynamic",
         name="d_confirmOpenProject",
         overrides={transform={w/4, h/4 + 70}}
       }, #STATE.LEVEL.layers, "editor")
+      print('spawned confirm')
       local cancelOpenProjectId = spawn.entity({
         type="dynamic",
         name="d_cancelOpenProject",
         overrides={transform={w/4 + 100, h/4 + 70}}
       }, #STATE.LEVEL.layers, "editor")
+      print('spawned cancel')
       addEntitiesToDelete(
         {confirmOpenProjectId, cancelOpenProjectId},
         {openProjectInfoId, confirmOpenProjectId, cancelOpenProjectId}

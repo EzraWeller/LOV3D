@@ -95,7 +95,9 @@ function love.update()
 
   -- update entities
   camera.update()
-  for i, e in ipairs(STATE.ACTORS) do e.update(e) end
+  for i, e in ipairs(STATE.ACTORS) do 
+    if e ~= nil then e.update(e) end
+  end
 
   -- convert level state into form LOVE2D can render 
   if STATE.LEVEL ~= nil then bake.level() end

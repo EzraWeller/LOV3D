@@ -9,9 +9,11 @@ function bake.level()
       local maxDistanceToCam = -1
       local uo = {}
       for j, entity in ipairs(layer.entities) do
-        local bo = bake.obj(STATE.ASSETS[entity.asset], entity.transform, entity.color)
-        if bo.distanceToCam > maxDistanceToCam then maxDistanceToCam = bo.distanceToCam end
-        table.insert(uo, bo)
+        if entity ~= nil then
+          local bo = bake.obj(STATE.ASSETS[entity.asset], entity.transform, entity.color)
+          if bo.distanceToCam > maxDistanceToCam then maxDistanceToCam = bo.distanceToCam end
+          table.insert(uo, bo)
+        end
       end
       -- sort
       BAKED_LEVEL[i].entities = sorts.counting(uo, "distanceToCam", maxDistanceToCam)
@@ -19,7 +21,7 @@ function bake.level()
       BAKED_LEVEL[i].entities = {}
       for j, entity in ipairs(layer.entities) do
         -- right now, UIs are the only 2D asset
-        BAKED_LEVEL[i].entities[j] = bake.UI(entity)
+        if entity ~= nil then BAKED_LEVEL[i].entities[j] = bake.UI(entity) end
       end
     end
   end
