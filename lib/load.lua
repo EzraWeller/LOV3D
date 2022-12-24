@@ -14,10 +14,13 @@ function load.entities(editor)
 end
 
 function load.entity(entity, editor)
+  -- wait, so is what's happening here that the actual data here is being changed?? so we need to make a copy I guess when we load...
   local loadedE = require(editor.."/entities/" .. entity.type .. "/" .. entity.name)
-  override(loadedE, entity)
-  loadedE.asset = load.entityAsset(loadedE, editor)
-  return loadedE
+  -- make a copy instead of using that file specifically
+  local copiedE = deep.copy(loadedE)
+  override(copiedE, deep.copy(entity))
+  copiedE.asset = load.entityAsset(copiedE, editor)
+  return copiedE
 end
 
 function override(table, o)
@@ -42,7 +45,6 @@ function load.uiAsset(ui)
   local asset = ui.asset
   love.graphics.setNewFont(asset.fontSize)
   asset.font = love.graphics.getFont()
-  print('asset text', asset.text)
   asset.text = love.graphics.newText(asset.font, asset.text)
   local w, h = asset.text:getDimensions()
   asset.w = w + asset.padding.x

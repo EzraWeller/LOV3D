@@ -28,9 +28,9 @@ function spawn.despawnEntity(entityId)
       error.new("spawn", "invalid entity id")
       return false
   end
-  STATE.LEVEL.layers[entityId.layerIndex].entities[entityId.entityIndex] = nil
+  STATE.LEVEL.layers[entityId.layerIndex].entities[entityId.entityIndex] = despawned
   if entityId.actorIndex ~= nil then 
-    STATE.ACTORS[entityId.actorIndex] = nil
+    STATE.ACTORS[entityId.actorIndex] = despawned
   end
   return true
 end

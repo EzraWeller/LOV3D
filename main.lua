@@ -3,6 +3,7 @@ bake = require "lib/bake"
 camera = require "lib/camera"
 cli = require "lib/cli"
 clicked = require "lib/clicked"
+deep = require "lib/deep"
 draw = require "lib/draw"
 error = require "lib/error"
 inputs = require "lib/inputs"
@@ -16,6 +17,7 @@ sort = require "lib/sort"
 spawn = require "lib/spawn"
 ui = require "lib/ui"
 vectors = require "lib/vectors"
+despawned = "despawned"
 
 -- caps to help make state more identifiable when reading
 STATE = require "lib/state"
@@ -96,7 +98,7 @@ function love.update()
   -- update entities
   camera.update()
   for i, e in ipairs(STATE.ACTORS) do 
-    if e ~= nil then e.update(e) end
+    if e ~= despawned then e.update(e) end
   end
 
   -- convert level state into form LOVE2D can render 

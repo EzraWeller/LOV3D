@@ -1,7 +1,6 @@
 clicked = require "lib/clicked"
 
 local function onClick(self)
-  print('cancel open project onClick')
   for i, id in ipairs(self.entitiesToDelete) do
     spawn.despawnEntity(id)
   end
