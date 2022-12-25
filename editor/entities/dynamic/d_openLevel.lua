@@ -1,3 +1,5 @@
+-- should on click load the level into the editor
+
 return {
   entityType="dynamic",
   assetType="UI",

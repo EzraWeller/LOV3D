@@ -1,3 +1,5 @@
+-- should just update text to the current level path selected
+
 return {
   entityType="dynamic",
   assetType="UI",
@@ -9,6 +11,7 @@ return {
     textColor={1,1,1,1},
     padding={x=20, y=20}
   },
+  shape="rectangle",
   transform={0, 0},
   update=function(self)
   end
