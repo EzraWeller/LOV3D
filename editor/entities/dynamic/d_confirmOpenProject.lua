@@ -1,11 +1,10 @@
 local function onClick(self)
-  -- if INPUT_TEXT[inputTextKey] is not nil,
   -- attempt to open project at that path
-  print('confirm open project onClick')
-  local path = STATE.INPUT_TEXT[self.inputTextKey]
-  print('path', path)
-  project.open(path)
+  project.open(STATE.INPUT_TEXT[self.inputTextKey])
   -- delete entities to delete
+  for i, id in ipairs(self.entitiesToDelete) do
+    spawn.despawnEntity(id)
+  end
 end
 
 local function otherClick(self)

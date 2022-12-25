@@ -28,25 +28,26 @@ function project.open(path)
 
   -- NOTE: this stuff is linux / mac only for now!
   -- delete our folders and copy the project's
-  io.popen("rm -rf assets entities level && cp -r "..
+  local copy = io.popen("rm -rf assets entities levels && cp -r "..
     path.."/assets assets && cp -r "..
     path.."/entities entities && cp -r "..
     path.."/levels levels")
-  io.flush()
+  io.close(copy)
   
-  return {
+  STATE.PROJECT = {
     entities={
-      dynamic=listLuaFiles("entities/dynamic", "lua"),
-      puppet=listLuaFiles("entities/puppet", "lua"),
-      static=listLuaFiles("entities/static", "lua")
+      static=listFiles("entities/static", "lua"),
+      dynamic=listFiles("entities/dynamic", "lua"),
+      puppet=listFiles("entities/puppet", "lua")
     },
-    levels=listLuaFiles("levels", "json")
+    levels=listFiles("levels", "json")
   }
 end
 
 function listFolders(path)
   local foldersRequest = io.popen("echo "..path.."/*/")
   local foldersStr = foldersRequest:read("*a")
+  io.close(foldersRequest)
   return splitFolders(foldersStr, " ")
 end
 
@@ -58,9 +59,12 @@ function splitFolders(str)
   return t
 end
 
-function listLuaFiles(path, ext)
+-- This could be done with love.filesystem.getDirectoryItems(path) it seems
+function listFiles(path, ext)
   local filesRequest = io.popen("echo "..path.."/*."..ext)
   local filesStr = filesRequest:read("*a")
+  io.close(filesRequest)
+  print('filesStr', filesStr)
   return splitFiles(filesStr, ext)
 end
 
