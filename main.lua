@@ -66,6 +66,9 @@ function love.load()
   -- record time
   STATE.TIME = love.timer.getTime()
 
+  -- get current project info 
+  project.getFiles()
+
   -- set default editor level to import
   STATE.LEVEL = json.decode(io.input("editor/levels/l_editor.json", "r"):read("a"))
 

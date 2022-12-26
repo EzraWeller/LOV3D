@@ -1,13 +1,7 @@
-clicked = require "lib/clicked"
-
 local function onClick(self)
   for i, id in ipairs(self.entitiesToDelete) do
     spawn.despawnEntity(id)
   end
-  -- despawn self, confirmOpenProject and openProjectInfo
-  -- how do we get references to the correct entities?
-    -- somehow pass in a list of of the layer index and entity index of the to-be-despawned entities?
-      -- after loading, set entitiesToDelete
 end
 
 local function otherClick(self)

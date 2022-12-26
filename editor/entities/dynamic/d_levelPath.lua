@@ -1,18 +1,24 @@
--- should just update text to the current level path selected
+local function update(self)
+  if STATE.INPUT_TEXT[self.inputTextKey] == nil and STATE.PROJECT ~= nil then
+    STATE.INPUT_TEXT[self.inputTextKey] = STATE.PROJECT.levels[1]
+  end
+  ui.updateText(self)
+end
 
 return {
   entityType="dynamic",
   assetType="UI",
   dimensions="2D",
   asset={
-    text="/",
+    text="  ",
     fontSize=12,
-    bgColor={0.5,0.5,0.5,1},
-    textColor={1,1,1,1},
+    bgColor={1,1,1,1},
+    textColor={0,0,0,1},
     padding={x=20, y=20}
   },
-  shape="rectangle",
   transform={0, 0},
-  update=function(self)
-  end
+  update=update,
+  shape="rectangle",
+  inputTextKey="LevelPath",
+  previousText="  "
 }

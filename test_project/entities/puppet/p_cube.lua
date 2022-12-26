@@ -1,5 +1,3 @@
-puppets = require "lib/puppets"
-
 local entityModes = {"game"}
 
 local inputFunctions = {

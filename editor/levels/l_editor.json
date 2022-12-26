@@ -22,6 +22,36 @@
               0
             ]
           }
+        },
+        {
+          "type": "dynamic",
+          "name": "d_levelPath",
+          "overrides": {
+            "transform": [
+              0,
+              60
+            ]
+          }
+        },
+        {
+          "type": "puppet",
+          "name": "p_selectPrevLevel",
+          "overrides": {
+            "transform": [
+              0,
+              100
+            ]
+          }
+        },
+        {
+          "type": "puppet",
+          "name": "p_selectNextLevel",
+          "overrides": {
+            "transform": [
+              40,
+              100
+            ]
+          }
         }
       ]
     }

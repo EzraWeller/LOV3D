@@ -1,4 +1,12 @@
 local arrays = {}
+
+-- returns first index of element or nil if not present
+function arrays.indexOf(e, a)
+  for i=1,#a do
+    if a[i] == e then return i end
+  end
+  return nil
+end
   
 function arrays.shareElement(a1, a2)
   for i, v in ipairs(a1) do

@@ -34,6 +34,10 @@ function project.open(path)
     path.."/levels levels")
   io.close(copy)
   
+  project.getFiles()
+end
+
+function project.getFiles()
   STATE.PROJECT = {
     entities={
       static=listFiles("entities/static", "lua"),
