@@ -2,6 +2,7 @@
   "layers": [
     {
       "type": "2D",
+      "editor": "editor",
       "entities": [
         {
           "type": "dynamic",
@@ -50,6 +51,16 @@
             "transform": [
               40,
               100
+            ]
+          }
+        },
+        {
+          "type": "dynamic",
+          "name": "d_openLevel",
+          "overrides": {
+            "transform": [
+              0,
+              140
             ]
           }
         }

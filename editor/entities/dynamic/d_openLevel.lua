@@ -1,4 +1,17 @@
+local inputTextKey = "LevelPath"
+
 -- should on click load the level into the editor
+local function onClick(self)
+  -- we want to add the editor level as the top (last) layer to the level
+  level.load(STATE.INPUT_TEXT[inputTextKey])
+end
+
+local function otherClick(self)
+end
+
+local function update(self)
+  clicked.update(self)
+end
 
 return {
   entityType="dynamic",
@@ -12,6 +25,9 @@ return {
     padding={x=20, y=20}
   },
   transform={0, 0},
-  update=function(self)
-  end
+  shape="rectangle",
+  onClick=onClick,
+  otherClick=otherClick,
+  inputTextKey=inputTextKey,
+  update=update
 }

@@ -1,3 +1,5 @@
+-- we'll want to make sure to remove the editor layer from the level before saving
+
 return {
   entityType="dynamic",
   assetType="UI",

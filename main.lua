@@ -8,6 +8,7 @@ draw = require "lib/draw"
 error = require "lib/error"
 inputs = require "lib/inputs"
 json = require "lib/json"
+level = require "lib/level"
 load = require "lib/load"
 matrices = require "lib/matrices"
 obj = require "lib/obj"
@@ -73,7 +74,7 @@ function love.load()
   STATE.LEVEL = json.decode(io.input("editor/levels/l_editor.json", "r"):read("a"))
 
   -- Import entities with level-specific settings
-  load.entities("editor")
+  load.entities()
 
   -- default to "game" controls
   arrays.addUniqueElement(STATE.INPUT_MODES, "game")

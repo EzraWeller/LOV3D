@@ -1,10 +1,10 @@
 local load = {}
 
-function load.entities(editor)
+function load.entities()
   local j
   for i, layer in ipairs(STATE.LEVEL.layers) do
     for j, e in pairs(layer.entities) do
-      local loadedE = load.entity(e, editor)
+      local loadedE = load.entity(e, layer.editor)
       layer.entities[j] = loadedE
       if loadedE.entityType == "dynamic" or loadedE.entityType == "puppet" then
         table.insert(STATE.ACTORS, loadedE)
@@ -15,7 +15,7 @@ end
 
 function load.entity(entity, editor)
   -- wait, so is what's happening here that the actual data here is being changed?? so we need to make a copy I guess when we load...
-  local loadedE = require(editor.."/entities/" .. entity.type .. "/" .. entity.name)
+  local loadedE = require((editor or "").."/entities/" .. entity.type .. "/" .. entity.name)
   -- make a copy instead of using that file specifically
   local copiedE = deep.copy(loadedE)
   override(copiedE, deep.copy(entity))
@@ -32,8 +32,9 @@ end
 function load.entityAsset(e, editor)
   local asset
   if e.assetType == "obj" then
-    if STATE.ASSET[e.asset] == nil then
-      STATE.ASSET[e.asset] = obj.load(editor.."assets/" .. e.assetType .. "/" .. e.asset .. ".obj")
+    if STATE.ASSETS[e.asset] == nil then
+      print('loading obj', json.encode(obj.load((editor or "").."assets/" .. e.assetType .. "/" .. e.asset .. ".obj")))
+      STATE.ASSETS[e.asset] = obj.load((editor or "").."assets/" .. e.assetType .. "/" .. e.asset .. ".obj")
     end
   elseif e.assetType == "UI" then
     asset = load.uiAsset(e)
