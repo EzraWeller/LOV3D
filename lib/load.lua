@@ -33,8 +33,8 @@ function load.entityAsset(e, editor)
   local asset
   if e.assetType == "obj" then
     if STATE.ASSETS[e.asset] == nil then
-      print('loading obj', json.encode(obj.load((editor or "").."assets/" .. e.assetType .. "/" .. e.asset .. ".obj")))
       STATE.ASSETS[e.asset] = obj.load((editor or "").."assets/" .. e.assetType .. "/" .. e.asset .. ".obj")
+      asset = e.asset
     end
   elseif e.assetType == "UI" then
     asset = load.uiAsset(e)

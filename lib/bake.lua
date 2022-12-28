@@ -10,6 +10,7 @@ function bake.level()
       local uo = {}
       for j, entity in ipairs(layer.entities) do
         if entity ~= despawned then
+          print('asset', entity.asset)
           local bo = bake.obj(STATE.ASSETS[entity.asset], entity.transform, entity.color)
           if bo.distanceToCam > maxDistanceToCam then maxDistanceToCam = bo.distanceToCam end
           table.insert(uo, bo)
