@@ -1,6 +1,6 @@
 return {
   entityType="static",
-  assetType="button",
+  assetType="UI",
   dimensions="2D",
   asset={
     text="Open Level",
@@ -8,10 +8,7 @@ return {
     bgColor={0.5,0.5,0.5,1},
     textColor={1,1,1,1},
     padding={x=20, y=20},
-    onClick=function()
-      -- TODO
-      print('Open Level Submit callback')
-    end
   },
-  transform={0, 0}
+  transform={0, 0},
+  shape="rectangle"
 }

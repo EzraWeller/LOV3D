@@ -4,6 +4,7 @@ local inputTextKey = "LevelPath"
 local function onClick(self)
   -- we want to add the editor level as the top (last) layer to the level
   level.load(STATE.INPUT_TEXT[inputTextKey])
+  arrays.addUniqueElement(STATE.INPUT_MODES, "game")
 end
 
 local function otherClick(self)

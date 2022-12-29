@@ -68,7 +68,6 @@ function listFiles(path, ext)
   local filesRequest = io.popen("echo "..path.."/*."..ext)
   local filesStr = filesRequest:read("*a")
   io.close(filesRequest)
-  print('filesStr', filesStr)
   return splitFiles(filesStr, ext)
 end
 

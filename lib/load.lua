@@ -14,9 +14,7 @@ function load.entities()
 end
 
 function load.entity(entity, editor)
-  -- wait, so is what's happening here that the actual data here is being changed?? so we need to make a copy I guess when we load...
   local loadedE = require((editor or "").."/entities/" .. entity.type .. "/" .. entity.name)
-  -- make a copy instead of using that file specifically
   local copiedE = deep.copy(loadedE)
   override(copiedE, deep.copy(entity))
   copiedE.asset = load.entityAsset(copiedE, editor)
@@ -34,8 +32,8 @@ function load.entityAsset(e, editor)
   if e.assetType == "obj" then
     if STATE.ASSETS[e.asset] == nil then
       STATE.ASSETS[e.asset] = obj.load((editor or "").."assets/" .. e.assetType .. "/" .. e.asset .. ".obj")
-      asset = e.asset
     end
+    asset = e.asset
   elseif e.assetType == "UI" then
     asset = load.uiAsset(e)
   end

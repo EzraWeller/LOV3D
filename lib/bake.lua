@@ -10,14 +10,13 @@ function bake.level()
       local uo = {}
       for j, entity in ipairs(layer.entities) do
         if entity ~= despawned then
-          print('asset', entity.asset)
           local bo = bake.obj(STATE.ASSETS[entity.asset], entity.transform, entity.color)
           if bo.distanceToCam > maxDistanceToCam then maxDistanceToCam = bo.distanceToCam end
           table.insert(uo, bo)
         end
       end
       -- sort
-      BAKED_LEVEL[i].entities = sorts.counting(uo, "distanceToCam", maxDistanceToCam)
+      BAKED_LEVEL[i].entities = sort.counting(uo, "distanceToCam", maxDistanceToCam)
     elseif layer.type == "2D" then
       BAKED_LEVEL[i].entities = {}
       for j, entity in ipairs(layer.entities) do
