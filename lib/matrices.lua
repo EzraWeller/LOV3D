@@ -108,4 +108,26 @@ function matrices.multiply(Ma, Mb)
   return R
 end
 
+function matrices.rotationMatrix(axis, degrees)
+  if axis == "x" then
+    return {
+      {1, 0, 0},
+      {0, math.cos(math.rad(degrees)), math.sin(math.rad(degrees))},
+      {0, -1 * math.sin(math.rad(degrees)), math.cos(math.rad(degrees))}
+    }
+  elseif axis == "y" then
+    return {
+      {math.cos(math.rad(degrees)), 0, -1 * math.sin(math.rad(degrees))},
+      {0, 1, 0},
+      {math.sin(math.rad(degrees)), 0, math.cos(math.rad(degrees))}
+    }
+  elseif axis == "z" then
+    return {
+      {math.cos(math.rad(degrees)), math.sin(math.rad(degrees)), 0},
+      {-1 * math.sin(math.rad(degrees)), math.cos(math.rad(degrees)), 0},
+      {0, 0, 1}
+    }
+  end
+end
+
 return matrices

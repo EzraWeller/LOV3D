@@ -16,41 +16,34 @@ end
 
 function rotateCamUp()
   -- turn camera up
-  --[[
-  local IBasis = matrices.invert(viewport.basis)
-  local nb1 = matrices.multiply(xRotation, IBasis)
-  local nb2 = matrices.multiply(nb1, viewport.basis)
-  viewport.basis = matrices.multiply(viewport.basis, nb2)
-  viewport.center = findViewportCenter()
-  ]]--
-  local CAMERA = STATE.CAMERA
-  CAMERA.viewport.basis[1] = vectors.rotateOnAxis(CAMERA.viewport.basis[1], CAMERA.rotationSpeed, "x")
-  CAMERA.viewport.basis[2] = vectors.rotateOnAxis(CAMERA.viewport.basis[2], CAMERA.rotationSpeed, "x")
-  CAMERA.viewport.basis[3] = vectors.rotateOnAxis(CAMERA.viewport.basis[3], CAMERA.rotationSpeed, "x")
+  STATE.CAMERA.viewport.basis = matrices.multiply(
+    STATE.CAMERA.viewport.basis, 
+    matrices.rotationMatrix("x", STATE.CAMERA.rotationSpeed)
+  )
 end
 
 function rotateCamDown()
   -- turn camera down
-  local CAMERA = STATE.CAMERA
-  CAMERA.viewport.basis[1] = vectors.rotateOnAxis(CAMERA.viewport.basis[1], -1 * CAMERA.rotationSpeed, "x")
-  CAMERA.viewport.basis[2] = vectors.rotateOnAxis(CAMERA.viewport.basis[2], -1 * CAMERA.rotationSpeed, "x")
-  CAMERA.viewport.basis[3] = vectors.rotateOnAxis(CAMERA.viewport.basis[3], -1 * CAMERA.rotationSpeed, "x")
+  STATE.CAMERA.viewport.basis = matrices.multiply(
+    STATE.CAMERA.viewport.basis, 
+    matrices.rotationMatrix("x", STATE.CAMERA.rotationSpeed * -1)
+  )
 end
 
 function rotateCamLeft()
   -- turn camera left
-  local CAMERA = STATE.CAMERA
-  CAMERA.viewport.basis[1] = vectors.rotateOnAxis(CAMERA.viewport.basis[1], CAMERA.rotationSpeed, "y")
-  CAMERA.viewport.basis[2] = vectors.rotateOnAxis(CAMERA.viewport.basis[2], CAMERA.rotationSpeed, "y")
-  CAMERA.viewport.basis[3] = vectors.rotateOnAxis(CAMERA.viewport.basis[3], CAMERA.rotationSpeed, "y")
+  STATE.CAMERA.viewport.basis = matrices.multiply(
+    STATE.CAMERA.viewport.basis, 
+    matrices.rotationMatrix("y", STATE.CAMERA.rotationSpeed)
+  )
 end
 
 function rotateCamRight()
   -- turn camera right
-  local CAMERA = STATE.CAMERA
-  CAMERA.viewport.basis[1] = vectors.rotateOnAxis(CAMERA.viewport.basis[1], -1 * CAMERA.rotationSpeed, "y")
-  CAMERA.viewport.basis[2] = vectors.rotateOnAxis(CAMERA.viewport.basis[2], -1 * CAMERA.rotationSpeed, "y")
-  CAMERA.viewport.basis[3] = vectors.rotateOnAxis(CAMERA.viewport.basis[3], -1 * CAMERA.rotationSpeed, "y")
+  STATE.CAMERA.viewport.basis = matrices.multiply(
+    STATE.CAMERA.viewport.basis, 
+    matrices.rotationMatrix("y", STATE.CAMERA.rotationSpeed * -1)
+  )
 end
 
 local inputFunctions = {
