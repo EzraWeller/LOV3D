@@ -62,6 +62,9 @@ STATE = require "lib/state"
 -- Basically, the open script would replace this directory's assets, entities, and levels folders with another directory's.
 -- The save script would do the reverse: replace the original directory's folders with this one's.
 
+-- TODO let's try to use canvases to stick the editor tools on a column to the left of the main level
+-- so there is no overlap
+
 --[[ ONCE AT START ]]--
 function love.load()
   -- record time

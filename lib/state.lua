@@ -47,7 +47,7 @@ local STATE = {
         {0,1,0},
         initialCamZBasis -- also describes the camera vector and the normal to the 2d viewport plane!
       },
-      size={x=1366, y=768}
+      size={x=1366, y=768} -- this is screen size
     }
   },
   TIME=0
