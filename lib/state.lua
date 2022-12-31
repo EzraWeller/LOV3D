@@ -50,7 +50,9 @@ local STATE = {
       size={x=1366, y=768} -- this is screen size
     }
   },
-  TIME=0
+  TIME=0,
+  SELECTED_ENTITY_TYPE="static",
+  SELECTED_ENTITY_INDEX=1
 }
 
 return STATE

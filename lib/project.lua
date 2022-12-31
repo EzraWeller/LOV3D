@@ -48,6 +48,56 @@ function project.getFiles()
   }
 end
 
+local entityTypes = {"static", "dynamic", "puppet"}
+
+function project.selectNextEntityPath()
+  if STATE.PROJECT == nil then return end
+  if #STATE.PROJECT.entities[STATE.SELECTED_ENTITY_TYPE] > STATE.SELECTED_ENTITY_INDEX then
+    STATE.SELECTED_ENTITY_INDEX = STATE.SELECTED_ENTITY_INDEX + 1
+    return
+  end
+  local typeIndex = arrays.indexOf(STATE.SELECTED_ENTITY_TYPE, entityTypes)
+  local newIndex = typeIndex + 1
+  if newIndex > 3 then newIndex = newIndex - 3 end
+  if #STATE.PROJECT.entities[entityTypes[newIndex]] > 0 then 
+    STATE.SELECTED_ENTITY_TYPE = entityTypes[newIndex]
+    STATE.SELECTED_ENTITY_INDEX = 1
+    return
+  end
+  newIndex = newIndex + 1
+  if newIndex > 3 then newIndex = newIndex - 3 end
+  if #STATE.PROJECT.entities[entityTypes[newIndex]] > 0 then 
+    STATE.SELECTED_ENTITY_TYPE = entityTypes[newIndex]
+    STATE.SELECTED_ENTITY_INDEX = 1
+    return
+  end
+  STATE.SELECTED_ENTITY_INDEX = 1
+end
+
+function project.selectePrevEntityPath()
+  if STATE.PROJECT == nil then return end
+  if STATE.SELECTED_ENTITY_INDEX > 1 then
+    STATE.SELECTED_ENTITY_INDEX = STATE.SELECTED_ENTITY_INDEX - 1
+    return
+  end
+  local typeIndex = arrays.indexOf(STATE.SELECTED_ENTITY_TYPE, entityTypes)
+  local newIndex = typeIndex - 1
+  if newIndex < 3 then newIndex = newIndex + 3 end
+  if #STATE.PROJECT.entities[entityTypes[newIndex]] > 0 then 
+    STATE.SELECTED_ENTITY_TYPE = entityTypes[newIndex]
+    STATE.SELECTED_ENTITY_INDEX = 1
+    return
+  end
+  newIndex = newIndex - 1
+  if newIndex < 3 then newIndex = newIndex + 3 end
+  if #STATE.PROJECT.entities[entityTypes[newIndex]] > 0 then 
+    STATE.SELECTED_ENTITY_TYPE = entityTypes[newIndex]
+    STATE.SELECTED_ENTITY_INDEX = 1
+    return
+  end
+  STATE.SELECTED_ENTITY_INDEX = #STATE.PROJECT.entities[STATE.SELECTED_ENTITY_TYPE]
+end
+
 function listFolders(path)
   local foldersRequest = io.popen("echo "..path.."/*/")
   local foldersStr = foldersRequest:read("*a")
