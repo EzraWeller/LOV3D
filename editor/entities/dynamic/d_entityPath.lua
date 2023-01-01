@@ -1,8 +1,7 @@
 local function update(self)
-  if STATE.SELECTED_ENTITY_TYPE == nil and STATE.PROJECT ~= nil then
+  if STATE.INPUT_TEXT[self.inputTextKey] == nil then
     project.selectNextEntityPath()
-    STATE.INPUT_TEXT[self.inputTextKey] = 
-      STATE.PROJECT.entities[STATE.SELECTED_ENTITY_TYPE][STATE.SELECTED_ENTITY_INDEX]
+    STATE.INPUT_TEXT[self.inputTextKey] = STATE.PROJECT.entities[STATE.SELECTED_ENTITY_TYPE][STATE.SELECTED_ENTITY_INDEX]
   end
   ui.updateText(self)
 end

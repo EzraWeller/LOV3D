@@ -70,7 +70,27 @@
           "overrides": {
             "transform": [
               0,
-              180
+              200
+            ]
+          }
+        },
+        {
+          "type": "puppet",
+          "name": "p_selectPrevEntity",
+          "overrides": {
+            "transform": [
+              0,
+              240
+            ]
+          }
+        },
+        {
+          "type": "puppet",
+          "name": "p_selectNextEntity",
+          "overrides": {
+            "transform": [
+              50,
+              240
             ]
           }
         }

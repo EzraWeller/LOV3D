@@ -82,17 +82,17 @@ function project.selectePrevEntityPath()
   end
   local typeIndex = arrays.indexOf(STATE.SELECTED_ENTITY_TYPE, entityTypes)
   local newIndex = typeIndex - 1
-  if newIndex < 3 then newIndex = newIndex + 3 end
-  if #STATE.PROJECT.entities[entityTypes[newIndex]] > 0 then 
+  if newIndex < 1 then newIndex = newIndex + 3 end
+  if STATE.PROJECT.entities[entityTypes[newIndex]] ~= nil and #STATE.PROJECT.entities[entityTypes[newIndex]] > 0 then
     STATE.SELECTED_ENTITY_TYPE = entityTypes[newIndex]
-    STATE.SELECTED_ENTITY_INDEX = 1
+    STATE.SELECTED_ENTITY_INDEX = #STATE.PROJECT.entities[STATE.SELECTED_ENTITY_TYPE]
     return
   end
   newIndex = newIndex - 1
-  if newIndex < 3 then newIndex = newIndex + 3 end
-  if #STATE.PROJECT.entities[entityTypes[newIndex]] > 0 then 
+  if newIndex < 1 then newIndex = newIndex + 3 end
+  if STATE.PROJECT.entities[entityTypes[newIndex]] ~= nil and #STATE.PROJECT.entities[entityTypes[newIndex]] > 0 then 
     STATE.SELECTED_ENTITY_TYPE = entityTypes[newIndex]
-    STATE.SELECTED_ENTITY_INDEX = 1
+    STATE.SELECTED_ENTITY_INDEX = #STATE.PROJECT.entities[STATE.SELECTED_ENTITY_TYPE]
     return
   end
   STATE.SELECTED_ENTITY_INDEX = #STATE.PROJECT.entities[STATE.SELECTED_ENTITY_TYPE]

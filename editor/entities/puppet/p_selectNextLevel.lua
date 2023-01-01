@@ -2,8 +2,11 @@ local inputTextKey="LevelPath"
 local inputModes = {"game"}
 
 local inputFunctions = {
-  keyboard = {
-    right=function(self) setLevelPathToNextLevel() end
+  held = {},
+  presses = {
+    keyboard = {
+      right=function(self) setLevelPathToNextLevel() end
+    }
   }
 }
 
