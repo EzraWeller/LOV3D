@@ -30,6 +30,11 @@ function inputs.storeMousePress(x, y, b)
   table.insert(STATE.INPUT_PRESSES.mouse[b], 1, {x=x, y=y, t=STATE.TIME})
 end
 
+function inputs.storeMousePosition(x, y)
+  if #STATE.MOUSE_POSITIONS > STATE.INPUT_PRESSES_BUFFER then table.remove(STATE.MOUSE_POSITIONS) end
+  table.insert(STATE.MOUSE_POSITIONS, 1, {x=x, y=y})
+end
+
 function inputs.storeHeld()
   local k, v
   for k, v in pairs(STATE.INPUTS_HELD.keyboard) do

@@ -99,6 +99,8 @@ function love.update()
   -- update time
   STATE.TIME = love.timer.getTime()
 
+  inputs.storeMousePosition(love.mouse.getPosition())
+
   -- record held input like keys being held down
   inputs.storeHeld()
 

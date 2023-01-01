@@ -40,7 +40,6 @@ return {
   shape="rectangle",
   transform={0, 0},
   onClick=onClick,
-  otherClick=otherClick,
   update=update,
   inputTextKey=inputTextKey,
   inputModes=inputModes,

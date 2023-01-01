@@ -1,8 +1,8 @@
 local spawn = {}
 
-function spawn.entity(entity, layerIndex, editor)
+function spawn.entity(entityInfo, layerIndex, editor)
   local layer = STATE.LEVEL.layers[layerIndex]
-  local loadedE = load.entity(entity, editor)
+  local loadedE = load.entity(entityInfo, editor)
   table.insert(layer.entities, loadedE)
   local id = {layerIndex=layerIndex, entityIndex=#layer.entities}
   if loadedE.entityType == "dynamic" or loadedE.entityType == "puppet" then
@@ -10,6 +10,12 @@ function spawn.entity(entity, layerIndex, editor)
     id.actorIndex = #STATE.ACTORS
   end
   return id
+end
+
+function spawn.replaceEntity(entityId, entityInfo, layerIndex, editor)
+  local layer = STATE.LEVEL.layers[layerIndex]
+  local loadedE = load.entity(entityInfo, editor)
+  layer.entities[entityId.entityIndex] = loadedE
 end
 
 -- TODO walked myself into an obvious problem here: these IDs change when something gets removed...

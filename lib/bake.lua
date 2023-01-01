@@ -30,14 +30,14 @@ end
 
 function bake.obj(obj, transform, color)
   local bo = {obj={v={}, f=obj.f}, distanceToCam=-1, color=color}
-  local vMean = {0,0,0}
+  local vSum = {0,0,0}
   for i, v in ipairs(obj.v) do
     if #transform ~= 0 then 
       bo.obj.v[i] = vectors.timesMatrix(v, transform)
     end
-    vSum = {vMean[1] + v[1], vMean[2] + v[2], vMean[3] + v[3]}
+    vSum = {vSum[1] + v[1], vSum[2] + v[2], vSum[3] + v[3]}
   end
-  vMean = {vMean[1]/#obj.v, vMean[2] / #obj.v, vMean[3] / #obj.v}
+  local vMean = {vSum[1] / #obj.v, vSum[2] / #obj.v, vSum[3] / #obj.v}
   bo.distanceToCam = distanceBetweenPoints(vMean, STATE.CAMERA.position)
   bo.obj = objTo2d(bo.obj)
   return bo

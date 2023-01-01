@@ -19,6 +19,7 @@ local STATE = {
     },
     mouse = {{},{}}
   },
+  MOUSE_POSITIONS={},
   INPUTS_HELD_BUFFER = 100,
   INPUT_PRESSES = {
     keyboard = {

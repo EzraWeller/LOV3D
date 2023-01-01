@@ -93,6 +93,16 @@
               240
             ]
           }
+        },
+        {
+          "type": "dynamic",
+          "name": "d_placeEntity",
+          "overrides": {
+            "transform": [
+              0,
+              280
+            ]
+          }
         }
       ]
     }
