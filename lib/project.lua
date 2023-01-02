@@ -40,11 +40,11 @@ end
 function project.getFiles()
   STATE.PROJECT = {
     entities={
-      static=listFiles("entities/static", "lua"),
-      dynamic=listFiles("entities/dynamic", "lua"),
-      puppet=listFiles("entities/puppet", "lua")
+      static=listFiles("entities/static", "lua", 4),
+      dynamic=listFiles("entities/dynamic", "lua", 4),
+      puppet=listFiles("entities/puppet", "lua", 4)
     },
-    levels=listFiles("levels", "json")
+    levels=listFiles("levels", "json", 0)
   }
 end
 
@@ -114,17 +114,17 @@ function splitFolders(str)
 end
 
 -- This could be done with love.filesystem.getDirectoryItems(path) it seems
-function listFiles(path, ext)
+function listFiles(path, ext, cutoffChars)
   local filesRequest = io.popen("echo "..path.."/*."..ext)
   local filesStr = filesRequest:read("*a")
   io.close(filesRequest)
-  return splitFiles(filesStr, ext)
+  return splitFiles(filesStr, ext, cutoffChars)
 end
 
-function splitFiles(str, ext)
+function splitFiles(str, ext, cutoffChars)
   local t = {}
   for segment in string.gmatch(str, "[^%/]+."..ext.."%s") do
-    table.insert(t, string.sub(segment, 1, -2))
+    table.insert(t, string.sub(segment, 1, -1 * cutoffChars - 2))
   end
   return t
 end

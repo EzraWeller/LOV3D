@@ -9,7 +9,7 @@ function bake.level()
       local maxDistanceToCam = -1
       local uo = {}
       for j, entity in ipairs(layer.entities) do
-        if entity ~= despawned then
+        if entity ~= despawned and entity.assetType ~= "script" then
           local bo = bake.obj(STATE.ASSETS[entity.asset], entity.transform, entity.color)
           if bo.distanceToCam > maxDistanceToCam then maxDistanceToCam = bo.distanceToCam end
           table.insert(uo, bo)
@@ -21,7 +21,9 @@ function bake.level()
       BAKED_LEVEL[i].entities = {}
       for j, entity in ipairs(layer.entities) do
         -- right now, UIs are the only 2D asset
-        if entity ~= despawned then BAKED_LEVEL[i].entities[j] = bake.UI(entity) end
+        if entity ~= despawned and entity.assetType ~= "script" then 
+          BAKED_LEVEL[i].entities[j] = bake.UI(entity) 
+        end
       end
     end
   end

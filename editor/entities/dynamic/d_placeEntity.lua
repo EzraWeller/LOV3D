@@ -1,6 +1,7 @@
 local inputTextKey = "EntityPath"
 
 local function onClick(self)
+  -- TODO should fail if no level is loaded
   -- spawn a new entity "p_entityBeingPlaced"
   spawn.entity({
     type="dynamic",
