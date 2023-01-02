@@ -11,7 +11,6 @@ return {
   },
   color={0,0,0},
   update=function(self, STATE)
-    print("d_cube updating")
     -- placeholder
     return self
   end

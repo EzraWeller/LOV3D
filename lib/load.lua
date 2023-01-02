@@ -14,7 +14,6 @@ function load.entities()
 end
 
 function load.entity(entity, editor)
-  print('requiring', (editor or "").."/entities/" .. entity.type .. "/" .. entity.name)
   local loadedE = require((editor or "").."/entities/" .. entity.type .. "/" .. entity.name)
   local copiedE = deep.copy(loadedE)
   override(copiedE, deep.copy(entity))

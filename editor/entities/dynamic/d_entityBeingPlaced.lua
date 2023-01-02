@@ -22,7 +22,7 @@ local function update(self)
     entity = STATE.LEVEL.layers[entityId.layerIndex].entities[entityId.entityIndex]
 
   elseif previousEntityName ~= STATE.INPUT_TEXT[inputTextKey] then
-
+    print('new entity name')
     spawn.replaceEntity(entityId, {
       type=STATE.SELECTED_ENTITY_TYPE,
       name=STATE.INPUT_TEXT[inputTextKey]
@@ -33,8 +33,10 @@ local function update(self)
 
   -- change the position of the entity according to the latest non-relative mouse position
   local latestMousePosition = STATE.MOUSE_POSITIONS[1]
-  entity.transform.x = latestMousePosition.x
-  entity.transform.y = latestMousePosition.y
+  if entity.overrides == nil then entity.overrides = {transform={}} end
+  entity.overrides.transform.x = latestMousePosition.x
+  entity.overrides.transform.y = latestMousePosition.y
+  print('changed entity position', entity.overrides.transform.x, entity.overrides.transform.x)
 
   -- make sure the entity is rendered
     -- with some kind of special outline somehow
