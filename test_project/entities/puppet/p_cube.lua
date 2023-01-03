@@ -1,22 +1,20 @@
-local entityModes = {"game"}
+local inputModes = {"game"}
 
 local inputFunctions = {
-  keyboard = {
-    up=function(self, STATE) print("p_cube up") end,
-    down=function(self, STATE) print("p_cube down") end,
-    left=function(self, STATE) print("p_cube left") end,
-    right=function(self, STATE) print("p_cube right") end,
+  held = {},
+  presses = {
+    keyboard = {
+      up=function(self) print("p_cube up") end,
+      down=function(self) print("p_cube down") end,
+      left=function(self) print("p_cube left") end,
+      right=function(self) print("p_cube right") end
+    }
   }
 }
 
-function update(self, STATE)
+function update(self)
   print("p_cube updating")
-  puppets.processInputs( 
-    self,
-    STATE,
-    inputFunctions, 
-    entityModes
-  )
+  puppet.processInputs(self)
   return self
 end
 
@@ -32,6 +30,7 @@ return {
     {1,0,1,1}
   },
   color={0,0,0},
-  input_modes=input_modes,
-  update=function(self, STATE) update(self, STATE) end
+  inputFunctions=inputFunctions,
+  inputModes=inputModes,
+  update=update
 }

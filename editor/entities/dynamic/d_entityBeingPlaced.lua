@@ -34,9 +34,12 @@ local function update(self)
   -- change the position of the entity according to the latest non-relative mouse position
   local latestMousePosition = STATE.MOUSE_POSITIONS[1]
   if entity.overrides == nil then entity.overrides = {transform={}} end
-  entity.overrides.transform.x = latestMousePosition.x
-  entity.overrides.transform.y = latestMousePosition.y
-  print('changed entity position', entity.overrides.transform.x, entity.overrides.transform.x)
+  entity.overrides.transform = {
+    {latestMousePosition.x / 100,0,0,0},
+    {0,latestMousePosition.y / 100,0,0},
+    {0,0,0,0},
+    {0,0,0,1}
+  }
 
   -- make sure the entity is rendered
     -- with some kind of special outline somehow
